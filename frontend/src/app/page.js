@@ -12,7 +12,7 @@ export default function Home() {
         <Navbar/>
         <Banner/>
         <Filters/>
-        <h1>Home Page</h1>
+       
     
       </main>
     </div>
