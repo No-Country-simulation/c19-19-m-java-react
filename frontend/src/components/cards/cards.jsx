@@ -1,7 +1,7 @@
 import React from 'react';
-import hoteles from '../data/hoteles';
-import restaurantes from '../data/restaurant';
-import actividades from '../data/actividades';
+import hoteles from '../../app/data/hoteles';
+import restaurantes from '../../app/data/restaurant';
+import actividades from '../../app/data/actividades';
 import Carousel from './Carousel';
 
 const Cards = () => {
