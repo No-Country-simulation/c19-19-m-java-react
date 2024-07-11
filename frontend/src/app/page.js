@@ -1,8 +1,9 @@
-
 import React from 'react';
 import Navbar from '@/components/navbar/page';
 import Banner from '@/components/banner/page';
 import Filters from '@/components/filters/page';
+import Cards from './cards/cards';
+
 
 export default function Home() {
   return (
@@ -12,8 +13,8 @@ export default function Home() {
         <Navbar/>
         <Banner/>
         <Filters/>
-        <h1>Home Page</h1>
-    
+        <Cards/>
+
       </main>
     </div>
   );
