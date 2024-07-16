@@ -5,6 +5,7 @@ import Filters from '@/components/filters/page';
 import Cards from '../components/cards/cards';
 import Footer from '@/components/footer/page';
 
+
 export default function Home() {
   return (
     <div>
@@ -15,6 +16,7 @@ export default function Home() {
         <Filters/>
         <Cards/>
         <Footer/>
+      
       </main>
     </div>
   );
