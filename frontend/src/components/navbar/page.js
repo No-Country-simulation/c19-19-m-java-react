@@ -56,6 +56,9 @@ const Navbar = () => {
             <Link href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
               Registrarse
             </Link>
+            <Link href="/posteos" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Crear Publicación
+            </Link>
           </div>
         </div>
       </div>
