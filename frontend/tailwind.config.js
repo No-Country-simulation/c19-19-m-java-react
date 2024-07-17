@@ -23,18 +23,13 @@ module.exports = {
         customBlueDark: "#202937",
       },
       fontFamily: {
-        txBarlow: ['Barlow', 'sans-serif'],
-        txPoppins: ['Poppins', 'sans-serif'],
-        txTitle: ['Caveat Brush', 'sans-serif'],
-        txSpartan: ['League Spartan', 'sans-serif'],
-        txMogra: ['Mogra', 'sans-serif'],
-        txSansita: ['Sansita', 'serif'],
-
-
-
-
+        txBarlow: ["Barlow", "sans-serif"],
+        txPoppins: ["Poppins", "sans-serif"],
+        txTitle: ["Caveat Brush", "sans-serif"],
+        txSpartan: ["League Spartan", "sans-serif"],
+        txMogra: ["Mogra", "sans-serif"],
+        txSansita: ["Sansita", "serif"],
       },
-
     },
   },
   plugins: [],
