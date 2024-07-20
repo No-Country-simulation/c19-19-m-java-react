@@ -27,8 +27,8 @@ const Carousel = ({ items, type }) => {
         className="flex space-x-4 overflow-x-hidden scrollbar-hide"
       >
         {items.map((item, index) => (
-          <div key={index} className="min-w-full md:min-w-[20rem] bg-white rounded-lg shadow-md overflow-hidden">
-            <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover"/>
+          <div key={index} className="min-w-[14rem] md:min-w-[14rem] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover rounded-t-lg"/>
             <div className="p-4">
               <h3 className="text-xl font-semibold">{item.nombre}</h3>
               <p className="text-gray-600">{item.ubicacion}</p>
