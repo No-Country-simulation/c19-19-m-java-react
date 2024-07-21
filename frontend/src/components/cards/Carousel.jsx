@@ -24,10 +24,10 @@ const Carousel = ({ items, type }) => {
       </button>
       <div
         ref={carouselRef}
-        className="flex space-x-6 overflow-x-hidden scrollbar-hide"
+        className="flex space-x-8 overflow-x-hidden scrollbar-hide"
       >
         {items.map((item, index) => (
-          <div key={index} className="min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 relative group">  {/* Añadido 'relative' y 'group' */}
+          <div key={index} className="min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 relative group">
             <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover rounded-t-lg"/>
             <div className="p-4">
               <h3 className="text-xl font-semibold">{item.nombre}</h3>
@@ -36,7 +36,6 @@ const Carousel = ({ items, type }) => {
               {type === 'restaurante' && <StarRating rating={Math.round(item.estrellas)} />}
               {type === 'actividad' && <StarRating rating={Math.round(item.estrellas)} />}
             </div>
-            {/* Contenedor del texto de "ver más" */}
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span>Ver más</span>
             </div>
@@ -54,4 +53,5 @@ const Carousel = ({ items, type }) => {
 };
 
 export default Carousel;
+
 
