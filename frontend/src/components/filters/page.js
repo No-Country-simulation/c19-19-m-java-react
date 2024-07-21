@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import SearchSubmenu from '../Search/SearchSubmenu';
+import ButtonSearch from '../Search/ButtonSearch';
 
 const Filters = () => {
   const [activitiesOpen, setActivitiesOpen] = useState(false);
@@ -47,7 +49,7 @@ const Filters = () => {
           </div>
 
           <div className="relative inline-block text-left">
-            <button
+            {/* <button
               type="button"
               className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={toggleGastronomy}
@@ -66,15 +68,31 @@ const Filters = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </button>
-            {gastronomyOpen && (
-              <div className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            </button> */}
+
+            <ButtonSearch fx={toggleGastronomy}>
+              Gastronomia
+            </ButtonSearch>
+            {gastronomyOpen && /* (
+              <div className="origin-top-left  z-50 absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 <div className="py-1" role="menu" aria-orientation="vertical">
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Rating: Low to High</button>
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Rating: High to Low</button>
+                  <button className="w-full  z-50 text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Rating: Low to High</button>
+                  <button className="w-full  z-50 text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Rating: High to Low</button>
                 </div>
               </div>
-            )}
+            ) */
+            <SearchSubmenu 
+            textOpc1={"opcion 1"}
+            fxOpc1={()=> console.log("hace click opcion 1")}
+
+            textOpc2={"opcion 2"}
+            fxOpc2={()=> console.log("hace click opcion 2")}
+
+            opc3={true}
+            textOpc3={"opcion 3"}
+            fxOpc3={()=> console.log("hace click opcion 3")}
+            ></SearchSubmenu>
+            }
           </div>
 
           <div className="relative inline-block text-left">
