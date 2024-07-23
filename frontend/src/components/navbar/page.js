@@ -1,7 +1,15 @@
+// components/navbar/page.js
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { useUser } from '@/app/context/UserContext';
 
 const Navbar = () => {
+  const { user, logout } = useUser(); // Obtener el usuario y la función de logout del contexto
+
+  console.log('Navbar user:', user); // Verifica el estado del usuario
+
   return (
     <nav className="bg-gray-800 shadow-lg">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -50,15 +58,45 @@ const Navbar = () => {
             <Link href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
               Contact
             </Link>
-            <Link href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-              Login
-            </Link>
-            <Link href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-              Registrarse
-            </Link>
-            <Link href="/posteos" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-              Crear Publicación
-            </Link>
+            {!user ? (
+              <>
+                <Link href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Login
+                </Link>
+                <Link href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Registrarse
+                </Link>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={logout}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
+                </button>
+                {user.role === 'Admin' && (
+                  <>
+                    <Link href="/create-post" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                      Crear Publicación
+                    </Link>
+                    <Link href="/my-posts" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                      Mis Publicaciones
+                    </Link>
+                  </>
+                )}
+                {user.role === 'SuperAdmin' && (
+                  <>
+                    <Link href="/create-post" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                      Crear Publicación
+                    </Link>
+                    <Link href="/create-admin" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                      Alta Admin
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -67,4 +105,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
 
