@@ -89,7 +89,7 @@ const Navbar = () => {
         </div>
       </div>
       {menuOpen && (
-        <div className="fixed inset-0 w-full h-full bg-black/40 backdrop-blur-md z-20 overflow-auto transition-colors ease-in-out animate-fade animate-delay-75">
+        <div className="fixed lg:hidden inset-0 w-full h-full bg-black/40 backdrop-blur-md z-20 overflow-auto transition-colors ease-in-out animate-fade animate-delay-75">
           <div className="absolute inset-0 flex justify-center items-center">
             <div className="bg-white p-8 rounded shadow-lg text-2xl flex flex-col items-center">
               {/* Aquí van los enlaces y botones del menú */}
