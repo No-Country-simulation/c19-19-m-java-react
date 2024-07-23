@@ -53,13 +53,13 @@ export default function ButtonLogin({
         </ButtonSession>
       )}
       {admin && (
-        <ButtonSession to={to} addStyle={"bg-customBlueDark"}>
+        <ButtonSession to={to} addStyle={"bg-customBlue"}>
           <AiOutlineUser   className={icon}/>
         </ButtonSession>
       )}
 
       {edit && (
-        <ButtonSession to={to} addStyle={"bg-customBlueDark"}>
+        <ButtonSession to={to} addStyle={"bg-customBlue"}>
           <AiOutlineEdit   className={icon}/>
         </ButtonSession>
       )}
