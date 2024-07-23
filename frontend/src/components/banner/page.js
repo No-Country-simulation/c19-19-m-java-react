@@ -17,12 +17,12 @@ const Banner = () => {
         {/* Tiempo y Clima */}
         <div className="absolute top-[43rem] left-0 p-4 flex flex-col items-start text-white animate-fade-right animate-delay-[700ms] animate-ease-in-out">
           <span className="flex items-center gap-2 mb-2">
-            <Image src={"/time.svg"} width={25} height={25} alt="Time Icon" />
+            <Image src={"/time.svg"} width={25} height={25} alt="Time Icons" />
             <Timeset>Guatapé, Colombia</Timeset>
           </span>
 
           <span className="flex items-center gap-2">
-            <Image src={"/weather.svg"} width={25} height={25} alt="Weather Icon" />
+            <Image src={"/weather.svg"} width={25} height={25} alt="Weather Icons" />
             <Wheater />
           </span>
         </div>
@@ -39,3 +39,5 @@ const Banner = () => {
 };
 
 export default Banner;
+
+
