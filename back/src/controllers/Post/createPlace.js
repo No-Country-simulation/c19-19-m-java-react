@@ -30,10 +30,6 @@ module.exports = async (req, res) => {
     }
 
     try {
-      // Registro para verificar el contenido de req.body
-      console.log('Request body:', req.body);
-
-      // Limpiar los nombres de los campos
       const cleanedBody = {};
       for (let key in req.body) {
         cleanedBody[key.trim()] = req.body[key].trim();
@@ -41,14 +37,12 @@ module.exports = async (req, res) => {
 
       const { nombre, descripcion, valoracion, ubicacion, tipo } = cleanedBody;
 
-      // Verificar que los campos requeridos no estén vacíos
       if (!nombre || !descripcion || !valoracion || !ubicacion || !tipo) {
         return response(res, 400, { error: 'Missing required fields' });
       }
 
       const images = req.files;
 
-      // Crear el Place primero
       const place = await Place.create({
         nombre,
         descripcion,
@@ -57,14 +51,12 @@ module.exports = async (req, res) => {
         tipo,
       });
 
-      // Si se subieron imágenes, asociarlas al Place
       if (images && images.length > 0) {
-        const imagePromises = images.map(async (image) => {
-          const createdImage = await Image.create({
-            placeId: place.id,
-            url: image.path, // Utilizar la URL de Cloudinary
+        const imagePromises = images.map((image) => {
+          return Image.create({
+            placeId: place.placeId, // Asegúrate de usar `place.placeId`
+            url: image.path,
           });
-          return createdImage;
         });
 
         await Promise.all(imagePromises);

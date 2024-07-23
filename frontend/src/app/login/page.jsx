@@ -1,16 +1,17 @@
-"use client"; // Esto marca el componente como un componente de cliente
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Importa useRouter desde next/navigation
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '../context/UserContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
 
-  const router = useRouter(); // Usa useRouter desde next/navigation
+  const router = useRouter();
+  const { login } = useUser();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -28,10 +29,17 @@ const Login = () => {
 
       const data = await response.json();
 
+      console.log('Login response:', data);
+
       if (response.ok) {
-        setUserInfo(data);
-        // Almacena el token o la información del usuario según sea necesario
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        
+        const userInfo = {
+          token: data.data.token,
+          n_document: data.data.n_document,
+          role: data.data.role,
+        };
+        login(userInfo);
+        router.push('/'); 
       } else {
         setError(data.message || 'Error en el inicio de sesión');
       }
@@ -41,12 +49,6 @@ const Login = () => {
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (userInfo) {
-      router.push('/'); // Navega a la página principal si el usuario está autenticado
-    }
-  }, [userInfo, router]);
 
   return (
     <div className="container mx-auto px-4">
@@ -91,3 +93,4 @@ const Login = () => {
 };
 
 export default Login;
+

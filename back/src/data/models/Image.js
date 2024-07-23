@@ -29,6 +29,10 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue: null,
       },
+      placeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false, // Make sure this field is not nullable
+      },
     },
     {
       paranoid: true,
