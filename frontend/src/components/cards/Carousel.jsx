@@ -27,7 +27,7 @@ const Carousel = ({ items, type }) => {
         className="flex space-x-6 overflow-x-hidden scrollbar-hide"  // Aumenta el espacio entre tarjetas
       >
         {items.map((item, index) => (
-          <div key={index} className="min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">  {/* Aumenta la sombra */}
+          <div key={index} className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">  {/* Aumenta la sombra */}
             <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover rounded-t-lg"/>
             <div className="p-4">
               <h3 className="text-xl font-semibold">{item.nombre}</h3>
