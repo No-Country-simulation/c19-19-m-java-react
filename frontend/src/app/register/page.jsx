@@ -1,7 +1,8 @@
-"use client"; // Esto marca el componente como un componente de cliente
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Importa useRouter desde next/navigation
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '../context/UserContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -22,14 +23,43 @@ const Register = () => {
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  const router = useRouter(); // Usa useRouter desde next/navigation
+  const router = useRouter(); 
+  const { user } = useUser(); // Obtén el usuario del contexto
+
+  useEffect(() => {
+    if (user && (user.role === 'Admin' || user.role === 'SuperAdmin')) {
+      // Mostrar los campos 'role' y 'subscription' si el usuario está logueado y es Admin o SuperAdmin
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        role: prevFormData.role,
+        subscription: prevFormData.subscription,
+        subscriptionExpiresAt: prevFormData.subscriptionExpiresAt
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+
+    // Actualiza el estado basado en el tipo de input
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+
+    // Si el checkbox de subscription se marca, establece la fecha actual
+    if (name === 'subscription' && checked) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        subscriptionExpiresAt: new Date().toISOString()
+      }));
+    } else if (name === 'subscription' && !checked) {
+      // Si se desmarca, puedes limpiar la fecha si lo deseas
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        subscriptionExpiresAt: ''
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -50,11 +80,7 @@ const Register = () => {
 
       if (response.ok) {
         setUserInfo(data);
-        if (data.role === 'Admin'|| data.role === 'SuperAdmin') {
-          router.push('/');
-        } else {
-          router.push('/');
-        }
+        router.push('/');
       } else {
         setError(data.message || 'Error en el registro');
       }
@@ -159,31 +185,32 @@ const Register = () => {
               <option value="O">Otro</option>
             </select>
           </div>
-          {userInfo && userInfo.role === 'SuperAdmin' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Rol</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-              >
-                <option value="User">Usuario</option>
-                <option value="Admin">Administrador</option>
-                <option value="SuperAdmin">SuperAdmin</option>
-              </select>
+          {(user && (user.role === 'Admin' || user.role === 'SuperAdmin')) && (
+            <>
               <div>
-              <label className="block text-sm font-medium text-gray-700">Suscripción</label>
-              <input
-                type="checkbox"
-                name="subscription"
-                checked={formData.subscription}
-                onChange={() => setFormData({ ...formData, subscription: !formData.subscription })}
-                className="mt-1"
-              />
-            </div>
-            </div>
-            
+                <label className="block text-sm font-medium text-gray-700">Rol</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                >
+                  <option value="User">Usuario</option>
+                  <option value="Admin">Administrador</option>
+                  <option value="SuperAdmin">SuperAdmin</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Suscripción</label>
+                <input
+                  type="checkbox"
+                  name="subscription"
+                  checked={formData.subscription}
+                  onChange={handleChange}
+                  className="mt-1"
+                />
+              </div>
+            </>
           )}
           <button
             type="submit"

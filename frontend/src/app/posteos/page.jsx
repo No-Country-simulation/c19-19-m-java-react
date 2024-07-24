@@ -16,13 +16,13 @@ const CreatePlace = () => {
 
 
   const router = useRouter(); // Usa useRouter desde next/navigation
-  const { userInfo } = useUser();
-console.log(userInfo)
+  const { user } = useUser();
+console.log(user)
   useEffect(() => {
-    if (!userInfo || (userInfo.role !== 'Admin' && userInfo.role !== 'SuperAdmin')) {
+    if (!user || (user.role !== 'Admin' && user.role !== 'SuperAdmin')) {
       setAlertMessage('No tiene permiso para crear una publicación.');
     }
-  }, [userInfo]);
+  }, [user]);
 
   const handleImageChange = (e) => {
     const filesArray = Array.from(e.target.files);
@@ -41,7 +41,7 @@ console.log(userInfo)
       setAlertMessage('Por favor complete todos los campos y seleccione al menos una imagen.');
       return;
     }
-    if (!userInfo || (userInfo.role !== 'Admin' && userInfo.role !== 'SuperAdmin')) {
+    if (!user || (user.role !== 'Admin' && user.role !== 'SuperAdmin')) {
       setAlertMessage('No tiene permiso para crear una publicación.');
       return;
     }
