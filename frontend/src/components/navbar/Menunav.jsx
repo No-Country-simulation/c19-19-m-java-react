@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Btlogins from "./Bttlogins";
 
-function Manuenav() {
+function Menunav() {
     return ( 
         <div className="fixed lg:hidden inset-0 w-full h-full bg-black/40 backdrop-blur-md z-20 overflow-auto transition-colors ease-in-out animate-fade animate-delay-75">
             <div className="absolute inset-0 flex justify-center items-center">
@@ -31,4 +31,4 @@ function Manuenav() {
     );
 }
 
-export default Manuenav; 
+export default Menunav; 

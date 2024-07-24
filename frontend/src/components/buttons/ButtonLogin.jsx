@@ -1,4 +1,3 @@
-
 /* 
         # Modo de uso
 
@@ -10,10 +9,18 @@
         <ButtonLogin to={"a"} edit={true} />
         <ButtonLogin to={"a"} logout={true} />
         <ButtonLogin to={"a"} addUser={true} />
+        <ButtonLogin to={"a"} superAdmin={true} />
+
 
  */
 
-import { AiOutlineEdit, AiOutlineLogout, AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
+import {
+  AiOutlineEdit,
+  AiOutlineLogout,
+  AiOutlineTool,
+  AiOutlineUser,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
 import ButtonSession from "./ButtonSession";
 
 export default function ButtonLogin({
@@ -23,15 +30,15 @@ export default function ButtonLogin({
   logout = false,
   admin = false,
   edit = false,
+  superAdmin = false,
   to,
 }) {
-  const icon = "fill-customGreenLight size-6"
+  const icon = "fill-customGreenLight size-6";
   return (
-
     <>
       {nouser && (
         <ButtonSession to={to} addStyle={"bg-gray-400"}>
-          <AiOutlineUser className={icon}/>
+          <AiOutlineUser className={icon} />
         </ButtonSession>
       )}
 
@@ -43,24 +50,30 @@ export default function ButtonLogin({
 
       {addUser && (
         <ButtonSession to={to} addStyle={"bg-customGrayDark"}>
-          <AiOutlineUserAdd  className={icon}/>
+          <AiOutlineUserAdd className={icon} />
         </ButtonSession>
       )}
 
       {logout && (
         <ButtonSession to={to} addStyle={"bg-customGrayDark"}>
-          <AiOutlineLogout   className={icon} />
+          <AiOutlineLogout className={icon} />
         </ButtonSession>
       )}
       {admin && (
         <ButtonSession to={to} addStyle={"bg-customBlue"}>
-          <AiOutlineUser   className={icon}/>
+          <AiOutlineUser className={icon} />
         </ButtonSession>
       )}
 
       {edit && (
         <ButtonSession to={to} addStyle={"bg-customBlue"}>
-          <AiOutlineEdit   className={icon}/>
+          <AiOutlineEdit className={icon} />
+        </ButtonSession>
+      )}
+
+      {superAdmin && (
+        <ButtonSession to={to} addStyle={"bg-customBlue"}>
+          <AiOutlineTool className={icon} />
         </ButtonSession>
       )}
     </>

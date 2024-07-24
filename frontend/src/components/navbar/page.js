@@ -6,7 +6,7 @@ import Linknav from './Linknav';
 import Title from '../texts/Title';
 import ButtonLogin from '../buttons/ButtonLogin';
 import Bttlogins from './Bttlogins';
-import Manunav from './menunav';
+import Menunav from './Menunav';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -90,7 +90,7 @@ const Navbar = () => {
         </div>
       </div>
       {menuOpen && (
-        <Manunav/>
+        <Menunav />
       )}
     </nav>
   );
