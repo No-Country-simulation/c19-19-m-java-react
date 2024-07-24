@@ -1,4 +1,4 @@
-const { Place, Image, User } = require('../../data');
+const { Place, Image } = require('../../data');
 const response = require('../../utils/response');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -30,23 +30,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-
-      const userId = req.user.id; // Ajusta esto según tu lógica de autenticación
-      const user = await User.findByPk(userId);
-
-      if (!user) {
-        return response(res, 404, { error: 'User not found' });
-      }
-
-      // Verificar si el usuario tiene una suscripción activa
-      const now = new Date();
-      if (!user.subscriptionExpiresAt || user.subscriptionExpiresAt < now) {
-        return response(res, 403, { error: 'User does not have an active subscription' });
-      }
-       // Verificar si el usuario tiene el rol adecuado
-       if (user.role !== 'Admin' && user.role !== 'SuperAdmin') {
-        return response(res, 403, { error: 'User does not have the required role' });
-      }
+      // Limpiar datos del cuerpo de la solicitud
       const cleanedBody = {};
       for (let key in req.body) {
         cleanedBody[key.trim()] = req.body[key].trim();
@@ -59,19 +43,27 @@ module.exports = async (req, res) => {
       }
 
       const images = req.files;
+      // Verifica que req.user esté disponible y que n_document exista
+      if (!req.user || !req.user.n_document) {
+        return res.status(400).json({ error: 'User is not authenticated or n_document is missing' });
+      }
 
+      const n_document = req.user.n_document; 
+
+      // Crear el lugar
       const place = await Place.create({
         nombre,
         descripcion,
         valoracion: parseFloat(valoracion),
         ubicacion,
         tipo,
+        n_document // Asociar el lugar con el usuario
       });
 
       if (images && images.length > 0) {
         const imagePromises = images.map((image) => {
           return Image.create({
-            placeId: place.placeId, // Asegúrate de usar `place.placeId`
+            placeId: place.placeId,
             url: image.path,
           });
         });
@@ -87,4 +79,6 @@ module.exports = async (req, res) => {
     }
   });
 };
+
+
 

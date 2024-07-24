@@ -59,6 +59,10 @@ console.log(user)
     try {
       const response = await fetch('http://localhost:3001/post/createPlace', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${user.token}`, // Incluye el token aquí
+          
+        },
         body: formData,
       });
 
