@@ -67,11 +67,11 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-6xl p-1 space-y-6 bg-white rounded-lg shadow-md flex">
         <div className="w-2/5 flex items-center justify-center">
-          <Image src={form} alt="Imagen de Registro" className="h-full object-cover" width={500} height={800} />
+          <Image src={form} alt="Imagen de Registro" className="h-full object-cover object-center" width={500} height={800} />
         </div>
         <div className="w-3/5 pr-4 p-8">
           <div className="flex justify-center">
-            <h2 className="text-2xl w-2/3 font-bold mb-4 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
+            <h2 className="text-2xl w-2/3 font-bold mb-10 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-6">
