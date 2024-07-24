@@ -4,6 +4,12 @@
  */
 
 export default function Paragraph({ children, light, addStyle }) {
-  let color = light ? "text-white" : "text-customGrayDark"  
-  return <p className={`font-txBarlow text-customGrayDark ${color} ${addStyle}`}>{children}</p>;
+  let color = light ? "text-white" : "text-customGrayDark";
+  return (
+    <p
+      className={`font-txBarlow text-base text-customGrayDark my-2 leading-7 ${color} ${addStyle}`}
+    >
+      {children}
+    </p>
+  );
 }
