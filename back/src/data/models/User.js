@@ -41,6 +41,11 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM('User', 'Admin', 'SuperAdmin'),
         defaultValue: 'User',
       },
+      subscriptionExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
       deletedAt: {
         type: DataTypes.DATE,
         allowNull: true,

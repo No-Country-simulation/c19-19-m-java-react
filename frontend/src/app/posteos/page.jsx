@@ -1,7 +1,8 @@
 "use client"; // Esto marca el componente como un componente de cliente
 
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useRouter } from 'next/navigation'; // Importa useRouter desde next/navigation
+import { useUser} from '../context/UserContext'
 import Swal from 'sweetalert2';
 
 const CreatePlace = () => {
@@ -13,7 +14,15 @@ const CreatePlace = () => {
   const [images, setImages] = useState([]);
   const [alertMessage, setAlertMessage] = useState('');
 
+
   const router = useRouter(); // Usa useRouter desde next/navigation
+  const { userInfo } = useUser();
+console.log(userInfo)
+  useEffect(() => {
+    if (!userInfo || (userInfo.role !== 'Admin' && userInfo.role !== 'SuperAdmin')) {
+      setAlertMessage('No tiene permiso para crear una publicación.');
+    }
+  }, [userInfo]);
 
   const handleImageChange = (e) => {
     const filesArray = Array.from(e.target.files);
@@ -30,6 +39,10 @@ const CreatePlace = () => {
 
     if (!nombre || !descripcion || !valoracion || !ubicacion || !tipo || images.length === 0) {
       setAlertMessage('Por favor complete todos los campos y seleccione al menos una imagen.');
+      return;
+    }
+    if (!userInfo || (userInfo.role !== 'Admin' && userInfo.role !== 'SuperAdmin')) {
+      setAlertMessage('No tiene permiso para crear una publicación.');
       return;
     }
 

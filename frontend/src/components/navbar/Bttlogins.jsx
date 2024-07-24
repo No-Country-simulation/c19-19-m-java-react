@@ -1,18 +1,19 @@
+import React from 'react';
 import ButtonLogin from "../buttons/ButtonLogin";
+import { useUser } from "@/app/context/UserContext";
 
 function Bttlogins() {
+    const { user } = useUser();
+
+
     const isAuthenticated = () => {
-        // Implementa la lógica para verificar si el usuario está autenticado
-        // Devuelve true si está autenticado, false en caso contrario
-        return false; // Ejemplo: siempre falso
-    };
+        return !!user; // Devuelve true si userInfo no es null o undefined
+      };
     
-    // Esta función debe ser reemplazada por tu propia lógica para obtener el rol del usuario
-    const getRole = () => {
-        // Implementa la lógica para obtener el rol del usuario autenticado
-        // Devuelve 'user' si el usuario es un usuario normal, 'admin' si es un administrador
-        return 'user'; // Ejemplo: siempre 'user'
-    };
+      const getRole = () => {
+        return user ? user.role : 'User'; // Devuelve el rol del usuario autenticado
+      };
+
     return ( 
         <>
             {!isAuthenticated() ? (
@@ -22,7 +23,7 @@ function Bttlogins() {
                 </>
                 ) : (
                 <>
-                    {getRole() === 'user' ? (
+                    {getRole() === 'User' ? (
                     <>
                         <ButtonLogin to={"/profile"} user></ButtonLogin>
                         <ButtonLogin to={"/logout"} logout></ButtonLogin>

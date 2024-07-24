@@ -1,4 +1,4 @@
-const { Place, Image } = require('../../data');
+const { Place, Image, User } = require('../../data');
 const response = require('../../utils/response');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -30,6 +30,23 @@ module.exports = async (req, res) => {
     }
 
     try {
+
+      const userId = req.user.id; // Ajusta esto según tu lógica de autenticación
+      const user = await User.findByPk(userId);
+
+      if (!user) {
+        return response(res, 404, { error: 'User not found' });
+      }
+
+      // Verificar si el usuario tiene una suscripción activa
+      const now = new Date();
+      if (!user.subscriptionExpiresAt || user.subscriptionExpiresAt < now) {
+        return response(res, 403, { error: 'User does not have an active subscription' });
+      }
+       // Verificar si el usuario tiene el rol adecuado
+       if (user.role !== 'Admin' && user.role !== 'SuperAdmin') {
+        return response(res, 403, { error: 'User does not have the required role' });
+      }
       const cleanedBody = {};
       for (let key in req.body) {
         cleanedBody[key.trim()] = req.body[key].trim();

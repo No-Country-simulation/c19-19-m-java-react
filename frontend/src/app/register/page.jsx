@@ -13,7 +13,9 @@ const Register = () => {
     phone: '',
     city: '',
     role: 'User',
-    gender: ''
+    gender: '',
+    subscription: false,
+    subscriptionExpiresAt: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ const Register = () => {
 
       if (response.ok) {
         setUserInfo(data);
-        if (data.role === 'Admin') {
+        if (data.role === 'Admin'|| data.role === 'SuperAdmin') {
           router.push('/');
         } else {
           router.push('/');
@@ -157,7 +159,7 @@ const Register = () => {
               <option value="O">Otro</option>
             </select>
           </div>
-          {userInfo && userInfo.role === 'Admin' && (
+          {userInfo && userInfo.role === 'SuperAdmin' && (
             <div>
               <label className="block text-sm font-medium text-gray-700">Rol</label>
               <select
@@ -168,8 +170,20 @@ const Register = () => {
               >
                 <option value="User">Usuario</option>
                 <option value="Admin">Administrador</option>
+                <option value="SuperAdmin">SuperAdmin</option>
               </select>
+              <div>
+              <label className="block text-sm font-medium text-gray-700">Suscripción</label>
+              <input
+                type="checkbox"
+                name="subscription"
+                checked={formData.subscription}
+                onChange={() => setFormData({ ...formData, subscription: !formData.subscription })}
+                className="mt-1"
+              />
             </div>
+            </div>
+            
           )}
           <button
             type="submit"
