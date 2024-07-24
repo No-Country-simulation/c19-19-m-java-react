@@ -10,7 +10,6 @@ export default function Home() {
       <main>
         <Navbar />
         <Banner />
-        <Filters />
         <Cards />
         <Footer />
       </main>

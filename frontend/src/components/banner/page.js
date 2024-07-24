@@ -1,17 +1,44 @@
-import React from 'react';
-import './bn.css';
+import Title from '../texts/Title';
+import Image from 'next/image';
+import Timeset from './Timeset';
+import Wheater from './Wheater';
+import Filters from '../filters/page';
 
 const Banner = () => {
+
   return (
-    <header className="relative bg-cover bg-center h-[50vh] banner">
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-full">
-        <div className="text-left animate-fade-in-up">
-          <h1 className="text-white text-5xl md:text-7xl font-bold mb-4 animate-slide-in-left">Descubre Guatapé</h1>
-          <p className="text-white text-lg md:text-xl leading-relaxed animate-slide-in-right">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula, lectus vel viverra fermentum, tortor lacus maximus erat, ac dapibus mauris augue sit amet enim. Nullam hendrerit justo sed dolor fringilla convallis.
-          </p>
+    <header className="bg-cover bg-center">
+      <div className="bg-black/30 relative w-full h-[55rem] flex flex-col items-center justify-center">
+
+        {/* Video de Fondo */}
+        <video className="w-full h-full object-cover absolute -z-10" loop autoPlay muted>
+          <source src={'/videoback.mp4'} type="video/mp4" />
+        </video>
+
+        {/* Tiempo y Clima */}
+        <div className="absolute top-[31rem] min-[425px]:top-[33rem] sm:top-[35rem] left-0 p-4 flex flex-col items-start text-white animate-fade-right animate-delay-[700ms] animate-ease-in-out">
+          <span className="flex items-center gap-2 mb-2">
+            <Image src={"/time.svg"} width={25} height={25} alt="Time Icons" />
+            <Timeset>Guatapé, Colombia</Timeset>
+          </span>
+
+          <span className="flex items-center gap-2">
+            <Image src={"/weather.svg"} width={25} height={25} alt="Weather Icons" />
+            <Wheater />
+          </span>
         </div>
+
+        {/* Título */}
+        <div className="text-center px-4 text-white my-auto pt-28">
+          <Title styleAdd=" text-7xl sm:text-8xl animate-fade-up animate-ease-in-out">Rincones de Guatapé</Title>
+          <Title styleAdd=" text-4xl sm:text-5xl animate-fade-up animate-delay-200 animate-ease-in-out">Un paraíso escondido en Colombia</Title>
+        </div>
+
+        {/* Filtros */}
+        <div className=' mb-8 px-4 w-full'>
+          <Filters />
+        </div>
+
       </div>
     </header>
   );
