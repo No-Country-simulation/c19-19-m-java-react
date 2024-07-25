@@ -1,28 +1,22 @@
 "use client";
 
-
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import form from '../../Image/form.jpeg';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 
-
 const Register = () => {
   const [formData, setFormData] = useState({
-    full_name: '',
-    address: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    type: '',
-    dni: '',
-    phone:'',
+    password: '',
+    n_document: '',
+    phone: '',
     city: '',
     role: 'User',
     gender: '',
     subscription: false,
     subscriptionExpiresAt: ''
-
   });
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +37,6 @@ const Register = () => {
       }));
     }
   }, [user]);
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -100,97 +93,20 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-6xl p-1 space-y-10 bg-white rounded-lg shadow-md flex">
-        <div className="w-2/5 flex items-center justify-center">
-          <Image src={form} alt="Imagen de Registro" className="h-full object-cover object-center" width={500} height={800} />
-        </div>
-        <div className="w-3/5  pl-5 pr-5 p-1">
-          <div className="flex justify-center">
-            <h2 className="text-2xl w-2/3 font-bold mb-10 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center">Registro de Cliente</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Nombre</label>
+            <input
+              type="text"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Nombre y Apellido</label>
-                <input
-                  type="text"
-                  name="full_name"
-                  value={formData.full_name}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">DNI</label>
-                <input
-                  type="text"
-                  name="dni"
-                  value={formData.dni}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Dirección</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Ciudad</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-             
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Teléfono</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-bold text-gray-700">Tipo de Servicio</label>
-              <input
-                type="text"
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                required
-              />
-            </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700">Apellido</label>
             <input
@@ -306,7 +222,6 @@ const Register = () => {
           {error && <div className="text-red-500 mt-2">{error}</div>}
         </form>
         {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
-
       </div>
     </div>
   );
