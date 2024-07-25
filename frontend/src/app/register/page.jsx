@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 import Image from 'next/image';
-import formImage from '../../Image/form.jpeg';
+import formImage from '../../img/form.jpeg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -99,10 +99,13 @@ const Register = () => {
         <div className="w-2/5 flex items-center justify-center">
           <Image src={formImage} alt="Imagen de Registro" className="h-full object-cover object-center" width={500} height={800} />
         </div>
-        <div className="w-3/5 p-8">
-          <h2 className="text-2xl font-bold mb-4 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
+        <div className="w-3/5  pl-5 pr-5 p-1">
+        <div className="flex justify-center">
+            <h2 className="text-2xl w-2/3 font-bold mb-10 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+            <div className="grid grid-cols-2 gap-6">
+              <div>
               <label className="block text-sm font-medium text-gray-700">Nombre</label>
               <input
               type="text"
@@ -218,18 +221,21 @@ const Register = () => {
               </div>
             </>
           )}
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
-            disabled={loading}
-          >
-            {loading ? 'Registrando...' : 'Registrar'}
-          </button>
-          {error && <div className="text-red-500 mt-2">{error}</div>}
-        </form>
-        {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
+          </div>
+          <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-1/3 h-8 bg-[#3B764C] text-white py-1 px-4 rounded-md hover:bg-[#336843]"
+                disabled={loading}
+              >
+                {loading ? 'Registrando...' : 'Enviar'}
+              </button>
+            </div>
+            {error && <div className="text-red-500 mt-2">{error}</div>}
+          </form>
+          {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
+        </div>
       </div>
-    </div>
     </div>
   );
  
