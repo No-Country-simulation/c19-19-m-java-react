@@ -27,12 +27,12 @@ function Bttlogins() {
                 </>
             ) : (
                 <>
-                    <ButtonLogin to="#" logout onClick={logout} />
+                    <ButtonLogin to="/" logout onClick={logout} />
 
                     {getRole() === 'Admin' && (
                         <>
                             <ButtonLogin to="/posteos" edit />
-                            <ButtonLogin to="/my-posts" />
+                            <ButtonLogin to="/misPosts" />
                         </>
                     )}
 
