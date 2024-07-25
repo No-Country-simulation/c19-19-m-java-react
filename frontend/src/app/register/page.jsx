@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 import Image from 'next/image';
-import formImage from '../../img/form.jpeg';
+import formImage from '../../Image/form.jpeg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
