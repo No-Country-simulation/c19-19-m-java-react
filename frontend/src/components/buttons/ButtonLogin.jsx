@@ -24,11 +24,12 @@ import {
 import ButtonSession from "./ButtonSession";
 
 export default function ButtonLogin({
-  user = false,
+  User = false,
   nouser = false,
   addUser = false,
   logout = false,
-  admin = false,
+  Admin = false,
+  SuperAdmin = false,
   edit = false,
   superAdmin = false,
   to,
@@ -42,7 +43,7 @@ export default function ButtonLogin({
         </ButtonSession>
       )}
 
-      {user && (
+      {User && (
         <ButtonSession to={to} addStyle={"bg-customGreen"}>
           <AiOutlineUser className={icon} />
         </ButtonSession>
@@ -59,7 +60,12 @@ export default function ButtonLogin({
           <AiOutlineLogout className={icon} />
         </ButtonSession>
       )}
-      {admin && (
+      {Admin && (
+        <ButtonSession to={to} addStyle={"bg-customBlue"}>
+          <AiOutlineUser   className={icon}/>
+        </ButtonSession>
+      )}
+         {SuperAdmin && (
         <ButtonSession to={to} addStyle={"bg-customBlue"}>
           <AiOutlineUser className={icon} />
         </ButtonSession>

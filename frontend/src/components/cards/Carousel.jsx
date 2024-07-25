@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import StarRating from './StarRating';
+import Link from 'next/link';
 
 const Carousel = ({ items, type }) => {
   const carouselRef = useRef(null);
@@ -24,22 +25,42 @@ const Carousel = ({ items, type }) => {
       </button>
       <div
         ref={carouselRef}
-        className="flex space-x-8 overflow-x-hidden scrollbar-hide"
+        className="flex space-x-6 overflow-x-hidden scrollbar-hide"
+
       >
         {items.map((item, index) => (
-          <div key={index} className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">  {/* Aumenta la sombra */}
-            <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover rounded-t-lg"/>
-            <div className="p-4">
-              <h3 className="text-xl font-semibold">{item.nombre}</h3>
-              <p className="text-gray-600">{item.ubicacion}</p>
-              {type === 'hotel' && <StarRating rating={Math.round(item.estrellas)} />}
-              {type === 'restaurante' && <StarRating rating={Math.round(item.estrellas)} />}
-              {type === 'actividad' && <StarRating rating={Math.round(item.estrellas)} />}
+          <Link href={`/detalle/${item.placeId}`} key={index}>
+            <div 
+              className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer flex flex-col"
+              style={{ height: '24rem' }} // Altura fija para las tarjetas
+            >
+              {item.Images && item.Images.length > 0 ? (
+                <img 
+                  src={item.Images[0].url} 
+                  alt={item.nombre} 
+                  style={{
+                    width: '100%',
+                    height: '200px', // Ajusta esta altura según tus necesidades
+                    objectFit: 'cover', 
+                    borderRadius: '0.5rem 0.5rem 0 0'
+                  }}
+                />
+              ) : (
+                <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                  <span className="text-gray-500">No Image</span>
+                </div>
+              )}
+              <div className="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold">{item.nombre}</h3>
+                  <p className="text-gray-600">{item.ubicacion}</p>
+                </div>
+                <StarRating rating={Math.round(item.valoracion)} />
+              </div>
             </div>
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span>Ver más</span>
-            </div>
-          </div>
+
+          </Link>
+
         ))}
       </div>
       <button
@@ -51,6 +72,7 @@ const Carousel = ({ items, type }) => {
     </div>
   );
 };
+
 
 export default Carousel;
 

@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -27,6 +28,7 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
 
   return (
     <nav className=" relative ">
@@ -64,6 +66,7 @@ const Navbar = () => {
           </div>
 
           {/* Enlaces y Botones */}
+
           <div className=" lg:flex space-x-4 pr-10 hidden">
             <Linknav href={"/"}>
               Inicio
@@ -80,6 +83,7 @@ const Navbar = () => {
             <Linknav href={"/contact"}>
               Contacto
             </Linknav>
+
           </div>
 
           {/* Botones de Inicio de Sesión y Registro */}
@@ -97,3 +101,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

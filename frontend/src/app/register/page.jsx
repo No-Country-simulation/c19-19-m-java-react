@@ -1,37 +1,72 @@
-"use client"; // Esto marca el componente como un componente de cliente
+"use client";
 
-import React, { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import form from '../../Image/form.jpeg';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '../context/UserContext';
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
     full_name: '',
     address: '',
     email: '',
-    company: '',
-    position: '',
-    service_type: '',
+    type: '',
     dni: '',
+    phone:'',
     city: '',
-    country: '',
-    cuit: '',
-    phone: '',
+    role: 'User',
+    gender: '',
+    subscription: false,
+    subscriptionExpiresAt: ''
+
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  const router = useRouter();
+  const router = useRouter(); 
+  const { user } = useUser(); // Obtén el usuario del contexto
+
+  useEffect(() => {
+    if (user && (user.role === 'Admin' || user.role === 'SuperAdmin')) {
+      // Mostrar los campos 'role' y 'subscription' si el usuario está logueado y es Admin o SuperAdmin
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        role: prevFormData.role,
+        subscription: prevFormData.subscription,
+        subscriptionExpiresAt: prevFormData.subscriptionExpiresAt
+      }));
+    }
+  }, [user]);
+
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+
+    // Actualiza el estado basado en el tipo de input
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+
+    // Si el checkbox de subscription se marca, establece la fecha actual
+    if (name === 'subscription' && checked) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        subscriptionExpiresAt: new Date().toISOString()
+      }));
+    } else if (name === 'subscription' && !checked) {
+      // Si se desmarca, puedes limpiar la fecha si lo deseas
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        subscriptionExpiresAt: ''
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -73,6 +108,7 @@ const Register = () => {
           <div className="flex justify-center">
             <h2 className="text-2xl w-2/3 font-bold mb-10 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
           </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-6">
               <div>
@@ -130,50 +166,7 @@ const Register = () => {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">País</label>
-                <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Razón Social</label>
-                <input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">CUIT</label>
-                <input
-                  type="text"
-                  name="cuit"
-                  value={formData.cuit}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700">Cargo</label>
-                <input
-                  type="text"
-                  name="position"
-                  value={formData.position}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
-                  required
-                />
-              </div>
+             
               <div>
                 <label className="block text-sm font-bold text-gray-700">Teléfono</label>
                 <input
@@ -190,26 +183,130 @@ const Register = () => {
               <label className="block text-sm font-bold text-gray-700">Tipo de Servicio</label>
               <input
                 type="text"
-                name="service_type"
-                value={formData.service_type}
+                name="type"
+                value={formData.type}
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-full shadow-sm bg-[#F1F1F1]"
                 required
               />
             </div>
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="w-1/3 h-8 bg-[#3B764C] text-white py-1 px-4 rounded-md hover:bg-[#336843]"
-                disabled={loading}
-              >
-                {loading ? 'Registrando...' : 'Enviar'}
-              </button>
-            </div>
-            {error && <div className="text-red-500 mt-2">{error}</div>}
-          </form>
-          {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
-        </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Apellido</label>
+            <input
+              type="text"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Número de Documento</label>
+            <input
+              type="text"
+              name="n_document"
+              value={formData.n_document}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Teléfono</label>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Ciudad</label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Género</label>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+            >
+              <option value="">Seleccione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+              <option value="O">Otro</option>
+            </select>
+          </div>
+          {(user && (user.role === 'Admin' || user.role === 'SuperAdmin')) && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Rol</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                >
+                  <option value="User">Usuario</option>
+                  <option value="Admin">Administrador</option>
+                  <option value="SuperAdmin">SuperAdmin</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Suscripción</label>
+                <input
+                  type="checkbox"
+                  name="subscription"
+                  checked={formData.subscription}
+                  onChange={handleChange}
+                  className="mt-1"
+                />
+              </div>
+            </>
+          )}
+          <button
+            type="submit"
+            className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+            disabled={loading}
+          >
+            {loading ? 'Registrando...' : 'Registrar'}
+          </button>
+          {error && <div className="text-red-500 mt-2">{error}</div>}
+        </form>
+        {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
+
       </div>
     </div>
   );

@@ -38,8 +38,13 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       role: {
-        type: DataTypes.ENUM('User', 'Admin'),
+        type: DataTypes.ENUM('User', 'Admin', 'SuperAdmin'),
         defaultValue: 'User',
+      },
+      subscriptionExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
       },
       deletedAt: {
         type: DataTypes.DATE,
