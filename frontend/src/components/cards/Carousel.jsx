@@ -29,20 +29,32 @@ const Carousel = ({ items, type }) => {
       >
         {items.map((item, index) => (
           <Link href={`/detalle/${item.placeId}`} key={index}>
-            <div className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer">
+            <div 
+              className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer flex flex-col"
+              style={{ height: '24rem' }} // Altura fija para las tarjetas
+            >
               {item.Images && item.Images.length > 0 ? (
-                <img src={item.Images[0].url} alt={item.nombre} className="w-full h-48 object-contain rounded-t-lg"/>
+                <img 
+                  src={item.Images[0].url} 
+                  alt={item.nombre} 
+                  style={{
+                    width: '100%',
+                    height: '200px', // Ajusta esta altura según tus necesidades
+                    objectFit: 'cover', 
+                    borderRadius: '0.5rem 0.5rem 0 0'
+                  }}
+                />
               ) : (
                 <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
                   <span className="text-gray-500">No Image</span>
                 </div>
               )}
-              <div className="p-4">
-                <h3 className="text-xl font-semibold">{item.nombre}</h3>
-                <p className="text-gray-600">{item.ubicacion}</p>
-                {type === 'hotel' && <StarRating rating={Math.round(item.valoracion)} />}
-                {type === 'restaurante' && <StarRating rating={Math.round(item.valoracion)} />}
-                {type === 'actividad' && <StarRating rating={Math.round(item.valoracion)} />}
+              <div className="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold">{item.nombre}</h3>
+                  <p className="text-gray-600">{item.ubicacion}</p>
+                </div>
+                <StarRating rating={Math.round(item.valoracion)} />
               </div>
             </div>
           </Link>
@@ -57,6 +69,7 @@ const Carousel = ({ items, type }) => {
     </div>
   );
 };
+
 
 export default Carousel;
 
