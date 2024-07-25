@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '../context/UserContext';
+import Image from 'next/image';
+import formImage from '../../Image/form.jpeg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -93,12 +95,16 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Registro de Cliente</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Nombre</label>
-            <input
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md flex">
+        <div className="w-2/5 flex items-center justify-center">
+          <Image src={formImage} alt="Imagen de Registro" className="h-full object-cover object-center" width={500} height={800} />
+        </div>
+        <div className="w-3/5 p-8">
+          <h2 className="text-2xl font-bold mb-4 text-center bg-[#F1D232] p-2 rounded-md">Registro de Cliente</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Nombre</label>
+              <input
               type="text"
               name="first_name"
               value={formData.first_name}
@@ -224,7 +230,9 @@ const Register = () => {
         {userInfo && <div className="text-green-500 mt-2">Registro exitoso!</div>}
       </div>
     </div>
+    </div>
   );
+ 
 };
 
 export default Register;
