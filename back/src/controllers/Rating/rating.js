@@ -23,17 +23,30 @@ module.exports = async (req, res) => {
       return response(res, 404, { error: 'Place not found' });
     }
 
-    const newRating = await Rating.create({
-      rating,
-      placeId,
-      n_document, // Usar 'n_document' aquí
-    });
-
-    response(res, 201, { message: 'Rating created successfully', data: newRating });
-  } catch (error) {
-    console.error('Error creating rating:', error);
-    response(res, 500, 'Error al crear la calificación');
-  }
-};
+     // Crear la nueva calificación
+     await Rating.create({
+        rating,
+        placeId,
+        n_document,
+      });
+  
+      // Obtener todas las calificaciones para el lugar
+      const ratings = await Rating.findAll({ where: { placeId } });
+  
+      // Calcular el promedio de las calificaciones
+      const averageRating = ratings.reduce((sum, rate) => sum + rate.rating, 0) / ratings.length;
+  
+      // Actualizar el lugar con la nueva valoración promedio
+      await Place.update(
+        { valoracion: Math.round(averageRating) }, // Redondear el promedio a un valor entero
+        { where: { placeId } }
+      );
+  
+      response(res, 201, { message: 'Rating created and place updated successfully' });
+    } catch (error) {
+      console.error('Error creating rating:', error);
+      response(res, 500, 'Error al crear la calificación');
+    }
+  };
 
 
