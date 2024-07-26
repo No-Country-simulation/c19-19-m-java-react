@@ -17,12 +17,11 @@ export const UserProvider = ({ children }) => {
 
   const login = (userInfo) => {
     // Establece el usuario en el estado y en el almacenamiento local
-    const { token, n_document, role } = userInfo;
-    setUser({ token, n_document, role });
-    localStorage.setItem('userInfo', JSON.stringify({ token, n_document, role }));
+    const { token, n_document, role, first_name, last_name } = userInfo;
+    setUser({ token, n_document, role, first_name, last_name });
+    localStorage.setItem('userInfo', JSON.stringify({ token, n_document, role, first_name, last_name }));
     localStorage.setItem('token', token); // Asegúrate de guardar el token también en localStorage
   };
-
   const logout = () => {
     // Limpia el estado y el almacenamiento local al cerrar sesión
     setUser(null);

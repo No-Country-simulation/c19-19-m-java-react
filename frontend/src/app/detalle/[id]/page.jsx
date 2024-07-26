@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import StarRating from '@/components/cards/StarRating';
 import { useUser } from '@/app/context/UserContext';
+import RatingPopup from '@/components/RatingPopup/RatingPopup';
+import { useRouter } from 'next/navigation';
 
 const fetchPlace = async (id) => {
   try {
@@ -14,7 +16,7 @@ const fetchPlace = async (id) => {
     
     console.log('Fetched place data:', data);
 
-    return data.data.post; // Asegúrate de que esto contenga el `id`
+    return data.data.post;
   } catch (error) {
     console.error('Error in fetchPlace:', error);
     return null;
@@ -27,15 +29,16 @@ const Detalle = ({ params }) => {
   const [error, setError] = useState(null);
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState('');
-
-  const { user } = useUser(); // Obtén el contexto del usuario
-
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const router = useRouter();
+  const { user } = useUser();
+console.log(user)
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchPlace(params.id);
       if (data) {
         setPlace(data);
-        console.log('Loaded place:', data); // Verifica los datos del lugar
+        console.log('Loaded place:', data);
         setLoading(false);
       } else {
         setError('Error fetching place');
@@ -45,7 +48,7 @@ const Detalle = ({ params }) => {
     fetchData();
   }, [params.id]);
 
-  const handleRatingSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       if (!user) {
         throw new Error('No user is logged in');
@@ -53,85 +56,57 @@ const Detalle = ({ params }) => {
       if (!place || !place.placeId) {
         throw new Error('Place ID is not available');
       }
-      if (!newRating || isNaN(newRating) || newRating < 1 || newRating > 5) {
-        throw new Error('Invalid rating value'); // Validación adicional para rating
+
+      const token = user.token;
+
+      if (newRating > 0) {
+        console.log('Sending rating:', { placeId: place.placeId, rating: newRating });
+
+        const ratingResponse = await fetch('http://localhost:3001/rating/newRating', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ placeId: place.placeId, rating: newRating }),
+        });
+
+        console.log('Rating response status:', ratingResponse.status);
+        const ratingResponseData = await ratingResponse.json();
+        console.log('Rating response data:', ratingResponseData);
+
+        if (!ratingResponse.ok) {
+          throw new Error('Error submitting rating');
+        }
       }
 
-      const token = user.token; // Usa el token del contexto
+      if (newComment.trim().length > 0) {
+        console.log('Sending comment:', { placeId: place.placeId, text: newComment });
 
-      console.log('Sending rating:', { placeId: place.placeId, rating: newRating });
+        const commentResponse = await fetch('http://localhost:3001/comment/createComment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ placeId: place.placeId, text: newComment }),
+        });
 
-      const response = await fetch('http://localhost:3001/rating/newRating', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Incluye el token en el encabezado
-        },
-        body: JSON.stringify({ placeId: place.placeId, rating: newRating }),
-      });
+        console.log('Comment response status:', commentResponse.status);
+        const commentResponseData = await commentResponse.json();
+        console.log('Comment response data:', commentResponseData);
 
-      console.log('Rating response status:', response.status);
-      const responseData = await response.json();
-      console.log('Rating response data:', responseData);
-
-      if (!response.ok) {
-        throw new Error('Error submitting rating');
+        if (!commentResponse.ok) {
+          throw new Error('Error submitting comment');
+        }
       }
 
-      // Recarga los datos del lugar para reflejar la nueva valoración
-      const data = await fetchPlace(params.id);
-      if (data) {
-        setPlace(data);
-      }
+      alert('Submitted successfully!');
+      setIsPopupOpen(false);
+      router.push('/'); // Redirige a la página principal después del envío
     } catch (error) {
-      console.error('Error in handleRatingSubmit:', error);
-    }
-  };
-
-  const handleCommentSubmit = async () => {
-    try {
-      if (!user) {
-        throw new Error('No user is logged in');
-      }
-      if (!place || !place.placeId) { // Asegúrate de usar place.placeId
-        console.error('Place data:', place);
-        throw new Error('Place ID is not available');
-      }
-      if (!newComment || newComment.trim().length === 0) {
-        throw new Error('Comment cannot be empty');
-      }
-
-      const token = user.token; // Usa el token del contexto
-
-      console.log('Sending comment:', { placeId: place.placeId, text: newComment });
-
-      const response = await fetch('http://localhost:3001/comment/createComment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ placeId: place.placeId, text: newComment }),
-      });
-
-      console.log('Comment response status:', response.status);
-      const responseData = await response.json();
-      console.log('Comment response data:', responseData);
-
-      if (!response.ok) {
-        throw new Error('Error submitting comment');
-      }
-
-      alert('Comment submitted successfully!');
-
-      const data = await fetchPlace(params.id);
-      if (data) {
-        setPlace(data);
-        setNewComment('');
-      }
-    } catch (error) {
-      console.error('Error in handleCommentSubmit:', error);
-      alert('Failed to submit comment. Please try again.');
+      console.error('Error in handleSubmit:', error);
+      alert('Failed to submit. Please try again.');
     }
   };
 
@@ -153,7 +128,7 @@ const Detalle = ({ params }) => {
         <p className="text-lg text-gray-700 mb-4">Descripción: {place.descripcion}</p>
         <div className="flex items-center mb-6">
           <p className="text-2xl font-semibold text-green-600 mr-4">Valoración:</p>
-          <StarRating rating={Math.round(place.valoracion)} /> {/* Renderiza las estrellas */}
+          <StarRating rating={Math.round(place.valoracion)} />
         </div>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 mb-6">
           {place.Images && place.Images.length > 0 ? (
@@ -172,45 +147,29 @@ const Detalle = ({ params }) => {
         </div>
         {user && (
           <div>
-            <h3 className="text-2xl font-semibold mb-4">Deja tu valoración</h3>
-            <input
-              type="number"
-              min="1"
-              max="5"
-              value={newRating}
-              onChange={(e) => setNewRating(e.target.value)}
-              className="border rounded p-2 mb-4"
+            <button onClick={() => setIsPopupOpen(true)} className="bg-green-600 text-white p-2 rounded">Dejar Comentario o Valoración</button>
+            <RatingPopup
+              isOpen={isPopupOpen}
+              onClose={() => setIsPopupOpen(false)}
+              onSubmit={handleSubmit}
+              newRating={newRating}
+              setNewRating={setNewRating}
+              newComment={newComment}
+              setNewComment={setNewComment}
             />
-            <button onClick={handleRatingSubmit} className="bg-green-600 text-white p-2 rounded">
-              Enviar Valoración
-            </button>
           </div>
         )}
-        {user && (
-          <div>
-            <h3 className="text-2xl font-semibold mb-4">Deja un comentario</h3>
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              className="border rounded p-2 mb-4 w-full"
-            />
-            <button onClick={handleCommentSubmit} className="bg-green-600 text-white p-2 rounded">
-              Enviar Comentario
-            </button>
-          </div>
+         <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Comentarios:</h3>
+        {place.Comments && place.Comments.length > 0 ? (
+          place.Comments.map((comment) => (
+            <div key={comment.id} className="mb-4 p-4 border border-gray-300 rounded">
+              <p className="text-lg font-medium text-gray-900 mb-2">{comment.User ? comment.User.first_name : 'Anónimo'}</p>
+              <p className="text-gray-700">{comment.text}</p>
+            </div>
+          ))
+        ) : (
+          <p>No hay comentarios disponibles</p>
         )}
-        <div>
-          <h3 className="text-2xl font-semibold mb-4">Comentarios</h3>
-          {place.Comments && place.Comments.length > 0 ? (
-            place.Comments.map((comment) => (
-              <div key={comment.id} className="mb-4">
-                <p className="text-lg text-gray-700">{comment.text}</p>
-              </div>
-            ))
-          ) : (
-            <div>No hay comentarios disponibles</div>
-          )}
-        </div>
       </div>
     </div>
   );
