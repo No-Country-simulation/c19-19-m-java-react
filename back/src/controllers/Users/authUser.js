@@ -1,7 +1,7 @@
-const { User } = require("../../data");
-const response = require("../../utils/response");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const { User } = require('../../data');
+const response = require('../../utils/response');
+const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
 
     // Crear token
     const token = jwt.sign(
-      { id: user.id, role: user.role, n_document: user.n_document }, // Incluir n_document en el payload del token
+      { id: user.id, role: user.role, n_document: user.n_document }, // Incluir 'id' aquí
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1h' }
     );
@@ -38,4 +38,5 @@ module.exports = async (req, res) => {
     response(res, 500, "Error al autenticar el usuario");
   }
 };
+
 

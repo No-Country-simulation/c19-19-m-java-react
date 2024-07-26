@@ -50,7 +50,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, Place,Image  } = sequelize.models;
+const { User, Place, Image, Rating, Comment  } = sequelize.models;
 
 // Relaciones
 User.hasMany(Place, { foreignKey: 'n_document', as: 'Propietario' });
@@ -58,6 +58,18 @@ Place.belongsTo(User, { foreignKey: 'n_document' });
 
 Place.hasMany(Image, { foreignKey: 'placeId' });
 Image.belongsTo(Place, { foreignKey: 'placeId' });
+
+Place.hasMany(Rating, { foreignKey: 'placeId' });
+Rating.belongsTo(Place, { foreignKey: 'placeId' });
+
+User.hasMany(Rating, { foreignKey: 'n_document' });
+Rating.belongsTo(User, { foreignKey: 'n_document' });
+
+Place.hasMany(Comment, { foreignKey: 'placeId' });
+Comment.belongsTo(Place, { foreignKey: 'placeId' });
+
+User.hasMany(Comment, { foreignKey: 'n_document' });
+Comment.belongsTo(User, { foreignKey: 'n_document' });
 
 
 //---------------------------------------------------------------------------------//
