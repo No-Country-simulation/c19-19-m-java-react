@@ -44,17 +44,6 @@ const Detalle = ({ params }) => {
     };
     fetchData();
   }, [params.id]);
-  
-  useEffect(() => {
-    const loadPlace = async () => {
-      const data = await fetchPlace(params.id);
-      if (data) {
-        setPlace(data);
-      }
-    };
-  
-    loadPlace();
-  }, [params.id]);
 
   const handleRatingSubmit = async () => {
     try {
@@ -67,11 +56,11 @@ const Detalle = ({ params }) => {
       if (!newRating || isNaN(newRating) || newRating < 1 || newRating > 5) {
         throw new Error('Invalid rating value'); // Validación adicional para rating
       }
-  
+
       const token = user.token; // Usa el token del contexto
-  
+
       console.log('Sending rating:', { placeId: place.placeId, rating: newRating });
-  
+
       const response = await fetch('http://localhost:3001/rating/newRating', {
         method: 'POST',
         headers: {
@@ -80,15 +69,15 @@ const Detalle = ({ params }) => {
         },
         body: JSON.stringify({ placeId: place.placeId, rating: newRating }),
       });
-  
+
       console.log('Rating response status:', response.status);
       const responseData = await response.json();
       console.log('Rating response data:', responseData);
-  
+
       if (!response.ok) {
         throw new Error('Error submitting rating');
       }
-  
+
       // Recarga los datos del lugar para reflejar la nueva valoración
       const data = await fetchPlace(params.id);
       if (data) {
@@ -98,7 +87,7 @@ const Detalle = ({ params }) => {
       console.error('Error in handleRatingSubmit:', error);
     }
   };
-  
+
   const handleCommentSubmit = async () => {
     try {
       if (!user) {
@@ -111,11 +100,11 @@ const Detalle = ({ params }) => {
       if (!newComment || newComment.trim().length === 0) {
         throw new Error('Comment cannot be empty');
       }
-  
+
       const token = user.token; // Usa el token del contexto
-  
+
       console.log('Sending comment:', { placeId: place.placeId, text: newComment });
-  
+
       const response = await fetch('http://localhost:3001/comment/createComment', {
         method: 'POST',
         headers: {
@@ -124,17 +113,17 @@ const Detalle = ({ params }) => {
         },
         body: JSON.stringify({ placeId: place.placeId, text: newComment }),
       });
-  
+
       console.log('Comment response status:', response.status);
       const responseData = await response.json();
       console.log('Comment response data:', responseData);
-  
+
       if (!response.ok) {
         throw new Error('Error submitting comment');
       }
-  
+
       alert('Comment submitted successfully!');
-  
+
       const data = await fetchPlace(params.id);
       if (data) {
         setPlace(data);
@@ -145,7 +134,7 @@ const Detalle = ({ params }) => {
       alert('Failed to submit comment. Please try again.');
     }
   };
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -181,31 +170,35 @@ const Detalle = ({ params }) => {
             <div>No hay imágenes disponibles</div>
           )}
         </div>
-        <div>
-          <h3 className="text-2xl font-semibold mb-4">Deja tu valoración</h3>
-          <input
-            type="number"
-            min="1"
-            max="5"
-            value={newRating}
-            onChange={(e) => setNewRating(e.target.value)}
-            className="border rounded p-2 mb-4"
-          />
-          <button onClick={handleRatingSubmit} className="bg-green-600 text-white p-2 rounded">
-            Enviar Valoración
-          </button>
-        </div>
-        <div>
-          <h3 className="text-2xl font-semibold mb-4">Deja un comentario</h3>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            className="border rounded p-2 mb-4 w-full"
-          />
-          <button onClick={handleCommentSubmit} className="bg-green-600 text-white p-2 rounded">
-            Enviar Comentario
-          </button>
-        </div>
+        {user && (
+          <div>
+            <h3 className="text-2xl font-semibold mb-4">Deja tu valoración</h3>
+            <input
+              type="number"
+              min="1"
+              max="5"
+              value={newRating}
+              onChange={(e) => setNewRating(e.target.value)}
+              className="border rounded p-2 mb-4"
+            />
+            <button onClick={handleRatingSubmit} className="bg-green-600 text-white p-2 rounded">
+              Enviar Valoración
+            </button>
+          </div>
+        )}
+        {user && (
+          <div>
+            <h3 className="text-2xl font-semibold mb-4">Deja un comentario</h3>
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="border rounded p-2 mb-4 w-full"
+            />
+            <button onClick={handleCommentSubmit} className="bg-green-600 text-white p-2 rounded">
+              Enviar Comentario
+            </button>
+          </div>
+        )}
         <div>
           <h3 className="text-2xl font-semibold mb-4">Comentarios</h3>
           {place.Comments && place.Comments.length > 0 ? (
@@ -224,6 +217,7 @@ const Detalle = ({ params }) => {
 };
 
 export default Detalle;
+
 
 
 
