@@ -14,8 +14,6 @@ export default function Home() {
      <Navbar />
         <Banner />
         <Cards />
-      
-       
         <AboutGuatape />
         <Faqs />
         <AboutUs />
