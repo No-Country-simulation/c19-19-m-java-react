@@ -17,9 +17,9 @@ export const UserProvider = ({ children }) => {
 
   const login = (userInfo) => {
     // Establece el usuario en el estado y en el almacenamiento local
-    const { token, n_document, role, first_name, last_name } = userInfo;
-    setUser({ token, n_document, role, first_name, last_name });
-    localStorage.setItem('userInfo', JSON.stringify({ token, n_document, role, first_name, last_name }));
+    const { token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt } = userInfo;
+    setUser({ token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt });
+    localStorage.setItem('userInfo', JSON.stringify({ token, n_document, role, first_name, last_name,subscriptionStartAt, subscriptionExpiresAt }));
     localStorage.setItem('token', token); // Asegúrate de guardar el token también en localStorage
   };
   const logout = () => {

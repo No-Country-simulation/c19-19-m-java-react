@@ -17,8 +17,8 @@ const Register = () => {
     city: '',
     role: 'User',
     gender: '',
-    subscription: false,
-    subscriptionExpiresAt: ''
+    subscriptionStartAt: '',
+    subscriptionExpiresAt: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,41 +34,43 @@ const Register = () => {
       setFormData(prevFormData => ({
         ...prevFormData,
         role: prevFormData.role,
-        subscription: prevFormData.subscription,
-        subscriptionExpiresAt: prevFormData.subscriptionExpiresAt
+        subscriptionStartAt: prevFormData.subscriptionStartAt,
+        subscriptionExpiresAt: prevFormData.subscriptionExpiresAt,
       }));
     }
   }, [user]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
 
     // Actualiza el estado basado en el tipo de input
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: value,
     }));
-
-    // Si el checkbox de subscription se marca, establece la fecha actual
-    if (name === 'subscription' && checked) {
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        subscriptionExpiresAt: new Date().toISOString()
-      }));
-    } else if (name === 'subscription' && !checked) {
-      // Si se desmarca, puedes limpiar la fecha si lo deseas
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        subscriptionExpiresAt: ''
-      }));
-    }
   };
+
+
+  //   // Si el checkbox de subscription se marca, establece la fecha actual
+  //   if (name === 'subscription' && checked) {
+  //     setFormData(prevFormData => ({
+  //       ...prevFormData,
+  //       subscriptionExpiresAt: new Date().toISOString()
+  //     }));
+  //   } else if (name === 'subscription' && !checked) {
+  //     // Si se desmarca, puedes limpiar la fecha si lo deseas
+  //     setFormData(prevFormData => ({
+  //       ...prevFormData,
+  //       subscriptionExpiresAt: ''
+  //     }));
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+ console.log(formData)
     try {
       const response = await fetch('http://localhost:3001/auth/register', {
         method: 'POST',
@@ -76,12 +78,16 @@ const Register = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
+        
       });
 
       const data = await response.json();
 
+     
+
       if (response.ok) {
         setUserInfo(data);
+       
         router.push('/');
       } else {
         setError(data.message || 'Error en el registro');
@@ -211,13 +217,23 @@ const Register = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Suscripción</label>
+                      <label className="block text-sm font-medium text-gray-700">Inicio de Suscripción</label>
                       <input
-                        type="checkbox"
-                        name="subscription"
-                        checked={formData.subscription}
+                        type="date"
+                        name="subscriptionStartAt"
+                        value={formData.subscriptionStartAt}
                         onChange={handleChange}
-                        className="mt-1"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Fin de Suscripción</label>
+                      <input
+                        type="date"
+                        name="subscriptionExpiresAt"
+                        value={formData.subscriptionExpiresAt}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
                       />
                     </div>
                   </>
