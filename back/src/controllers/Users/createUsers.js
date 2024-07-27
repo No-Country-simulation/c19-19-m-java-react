@@ -37,6 +37,7 @@ module.exports = async (req, res) => {
       phone: user.phone,
       city: user.city,
       role: user.role,
+      subscriptionStartAt: user.subscriptionStartAt || null,
       subscriptionExpiresAt: user.subscriptionExpiresAt || null,
     });
 

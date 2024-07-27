@@ -32,9 +32,9 @@ const Login = () => {
       }
 
       const data = await response.json();
-      const { token, n_document, role, first_name, last_name } = data.data;
+      const { token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt } = data.data;
 
-      login({ token, n_document, role, first_name, last_name }); // Establece el usuario en el contexto
+      login({ token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt}); // Establece el usuario en el contexto
       router.push('/'); // Redirige al inicio
     } catch (error) {
       setError(error.message);
