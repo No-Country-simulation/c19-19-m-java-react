@@ -13,16 +13,16 @@ const { authenticate, authorize } = require("../controllers/Users/authMiddleware
 router.post("/", createUsers);
 
 // Ruta para actualizar usuario
-router.put("/:n_document", authenticate, authorize(['Admin', 'User']), putUser);
+router.put("/:n_document", authenticate, authorize(['SuperAdmin']), putUser);
 
 // Ruta para eliminar usuario
-router.delete("/:n_document", authenticate, authorize(['Admin']), deleteUser);
+router.delete("/:n_document", authenticate, authorize(['SuperAdmin']), deleteUser);
 
 // Ruta para obtener todos los usuarios
-router.get("/", authenticate, authorize(['Admin']), getAllUsers);
+router.get("/", authenticate, authorize(['SuperAdmin']), getAllUsers);
 
 // Ruta para obtener un usuario por documento
-router.get("/:n_document", authenticate, authorize(['Admin', 'User']), getUserByDocument);
+router.get("/:n_document", authenticate, authorize(['SuperAdmin']), getUserByDocument);
 
 module.exports = router;
 
