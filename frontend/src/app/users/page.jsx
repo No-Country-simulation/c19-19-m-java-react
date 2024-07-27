@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
-import UserEditPopup from '@/components/UserEditPoput/UserEditPoput'; // Asegúrate de que el nombre del archivo sea correcto
+import UserEditPopup from '@/components/UserEditPoput/UserEditPoput';
 import { useUser } from '@/app/context/UserContext';
 
 const UsersList = () => {
@@ -57,12 +57,12 @@ const UsersList = () => {
   
     return (
       <div className="p-6 bg-gray-100 min-h-screen">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900">Users List</h1>
+        <h1 className="text-3xl font-bold mb-4 text-gray-900">Usuarios registrados</h1>
         
         <div className="mb-6">
           <input
             type="text"
-            placeholder="Search by n_document"
+            placeholder="Buscar por N° de documento"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="p-2 border border-gray-300 rounded-md w-full max-w-sm"
@@ -73,11 +73,11 @@ const UsersList = () => {
           <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-lg">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">n_document</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N° Documento</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Editar</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

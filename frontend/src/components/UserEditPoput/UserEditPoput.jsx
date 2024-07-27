@@ -6,7 +6,7 @@ const UserEditPopup = ({ user, onClose }) => {
   const [formData, setFormData] = useState(user);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { user: currentUser } = useUser(); // Asegúrate de que esto sea correcto
+  const { user: currentUser } = useUser(); 
   const token = currentUser ? currentUser.token : '';
 
   const handleInputChange = (e) => {
@@ -52,7 +52,7 @@ const UserEditPopup = ({ user, onClose }) => {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-1">
           <div>
-            <label className="block text-sm font-medium text-gray-700">n_document:</label>
+            <label className="block text-sm font-medium text-gray-700">N° Documento:</label>
             <input
               type="text"
               name="n_document"
@@ -62,7 +62,7 @@ const UserEditPopup = ({ user, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">First Name:</label>
+            <label className="block text-sm font-medium text-gray-700">Nombre:</label>
             <input
               type="text"
               name="first_name"
@@ -73,7 +73,7 @@ const UserEditPopup = ({ user, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Last Name:</label>
+            <label className="block text-sm font-medium text-gray-700">Apellido:</label>
             <input
               type="text"
               name="last_name"
@@ -106,7 +106,7 @@ const UserEditPopup = ({ user, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone:</label>
+            <label className="block text-sm font-medium text-gray-700">Telefono:</label>
             <input
               type="text"
               name="phone"
@@ -116,7 +116,7 @@ const UserEditPopup = ({ user, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">City:</label>
+            <label className="block text-sm font-medium text-gray-700">Ciudad:</label>
             <input
               type="text"
               name="city"
@@ -139,7 +139,7 @@ const UserEditPopup = ({ user, onClose }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Subscription Expires At:</label>
+            <label className="block text-sm font-medium text-gray-700">Subscription comienza:</label>
             <input
               type="date"
               name="subscriptionExpiresAt"
