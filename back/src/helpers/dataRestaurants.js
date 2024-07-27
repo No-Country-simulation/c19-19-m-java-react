@@ -1,7 +1,6 @@
 const { Place, Image } = require('../data'); // Ajusta la ruta según la ubicación de tu modelo
 const restaurant = require('../dataMokeada/restaurant'); // Ajusta la ruta según la ubicación de tu archivo de datos
-const sharp = require('sharp');
-const axios = require('axios');
+
 
 
 async function dataRestaurants() {
@@ -10,11 +9,19 @@ async function dataRestaurants() {
       await Place.sequelize.transaction(async (transaction) => {
         // Itera sobre cada restaurants en el array y créalas en la base de datos
         for (const restaurants of restaurant) {
+          const existingPlace = await Place.findOne({
+            where: {
+              nombre: restaurants.nombre,
+            },
+            transaction,
+          });
+  
+          if (!existingPlace) {
           // Crea el lugar y obtiene el lugar creado
           const place = await Place.create({
             nombre: restaurants.nombre,
             ubicacion: restaurants.ubicacion,
-            descripcion: 'Descripción predeterminada', // Ajusta según tus necesidades
+            descripcion:restaurants.descripcion, // Ajusta según tus necesidades
             valoracion: Math.round(restaurants.estrellas), // Redondea la valoración
             tipo: restaurants.tipo, // Ajusta el tipo según tus necesidades
             n_document: '30772620', // Asigna un valor predeterminado o ajusta según tu lógica
@@ -28,9 +35,10 @@ async function dataRestaurants() {
             }, { transaction });
           }
         }
+      }
       });
   
-      console.log('Datos cargados correctamente');
+      console.log('Restaurants cargados correctamente');
     } catch (error) {
       console.error('Error al cargar datos:', error);
     }
