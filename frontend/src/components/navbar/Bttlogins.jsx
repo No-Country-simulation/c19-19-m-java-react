@@ -30,7 +30,7 @@ function Bttlogins() {
             <>
               <ButtonLogin to="/posteos" edit />
               <ButtonLogin to="/register" addUser />
-              <ButtonLogin to="/users" edit />
+              <ButtonLogin to="/users" SuperForm />
             </>
           )}
         </>
