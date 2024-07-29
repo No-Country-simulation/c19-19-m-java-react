@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
 
-const UserEditPopup = ({ user, onClose }) => {
+const UserEditPopup = ({ user, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     ...user,
+    subscriptionStartsAt: user.subscriptionStartsAt ? user.subscriptionStartsAt.split('T')[0] : '', // Formato de fecha para el input type="date"
     subscriptionExpiresAt: user.subscriptionExpiresAt ? user.subscriptionExpiresAt.split('T')[0] : '', // Formato de fecha para el input type="date"
   });
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,12 @@ const UserEditPopup = ({ user, onClose }) => {
     setLoading(true);
     setError(null);
 
+     // Check and update role if subscription dates are set
+     if (formData.subscriptionStartsAt && formData.subscriptionExpiresAt && formData.role === 'User') {
+      formData.role = 'Admin';
+    }
+
+
     try {
       const response = await fetch(`http://localhost:3001/user/${formData.n_document}`, {
         method: 'PUT',
@@ -40,6 +47,8 @@ const UserEditPopup = ({ user, onClose }) => {
         throw new Error('Error al actualizar el usuario');
       }
 
+      const updatedUser = await response.json();
+      onUpdate(updatedUser.data);
       alert('Usuario actualizado con éxito');
       onClose();
     } catch (error) {
@@ -142,16 +151,26 @@ const UserEditPopup = ({ user, onClose }) => {
               <option value="SuperAdmin">SuperAdmin</option>
             </select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Subscription comienza:</label>
-            <input
-              type="date"
-              name="subscriptionExpiresAt"
-              value={formData.subscriptionExpiresAt}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+          <div className="mb-4">
+                <label className="block text-gray-700">Inicio de suscripción</label>
+                <input
+                  type="date"
+                  name="subscriptionStartsAt"
+                  value={formData.subscriptionStartsAt}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Fin de suscripción</label>
+                <input
+                  type="date"
+                  name="subscriptionExpiresAt"
+                  value={formData.subscriptionExpiresAt}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
           <div className="flex justify-end space-x-4">
             <button
               type="submit"

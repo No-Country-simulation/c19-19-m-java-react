@@ -20,12 +20,12 @@ router.put("/:n_document", authenticate, authorize(['SuperAdmin']), putUser);
 router.delete("/:n_document", authenticate, authorize(['SuperAdmin']), deleteUser);
 
 // Ruta para obtener todos los usuarios
-router.get("/", authenticate, authorize(['SuperAdmin']), getAllUsers);
+router.get("/", getAllUsers);
 
 // Ruta para obtener un usuario por documento
 router.get("/:n_document", authenticate, authorize(['SuperAdmin']), getUserByDocument);
 
-router.post('/:n_document/toggleSubscription', authenticate, toggleSubscription);
+router.post('/:n_document/toggleSubscription', authenticate, authorize(['SuperAdmin']), toggleSubscription);
 
 module.exports = router;
 

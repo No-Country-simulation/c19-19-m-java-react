@@ -19,7 +19,7 @@ const UsersList = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+                       
                     },
                 });
 
@@ -54,6 +54,11 @@ const UsersList = () => {
         setSelectedUser(user);
     };
 
+    const handleUserUpdate = (updatedUser) => {
+        setUsers(users.map(u => (u.n_document === updatedUser.n_document ? updatedUser : u)));
+        setFilteredUsers(filteredUsers.map(u => (u.n_document === updatedUser.n_document ? updatedUser : u)));
+    };
+
     const handleSubscriptionToggle = async (user) => {
         try {
             const response = await fetch(`http://localhost:3001/user/${user.n_document}/toggleSubscription`, {
@@ -85,7 +90,6 @@ const UsersList = () => {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays <= 30; // Consider expiring if less than 30 days
     };
-
 
      return (
         <div className="p-6 bg-gray-100 min-h-screen">
@@ -143,12 +147,11 @@ const UsersList = () => {
             </div>
 
             {selectedUser && (
-                <UserEditPopup user={selectedUser} onClose={() => setSelectedUser(null)} />
+                <UserEditPopup user={selectedUser} onClose={() => setSelectedUser(null)} onUpdate={handleUserUpdate}/>
             )}
         </div>
     );
 };
-
 
 export default UsersList;
 
