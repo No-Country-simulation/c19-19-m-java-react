@@ -1,10 +1,10 @@
 const cron = require('node-cron');
-const { User } = require('../data'); // Ajusta la ruta según tu estructura de proyecto
+const { User } = require('../data'); 
 const { sendSubscriptionReminder } = require('./emailService')
 const { Op } = require('sequelize');
 
 // Programa la tarea para que se ejecute todos los días a medianoche
-cron.schedule('*/10 * * * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
   try {
     const today = new Date();
     const tomorrow = new Date(today);
