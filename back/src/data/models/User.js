@@ -51,6 +51,16 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue: null,
       },
+      subscriptionActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      subscriptionReminderSent: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       deletedAt: {
         type: DataTypes.DATE,
         allowNull: true,

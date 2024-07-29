@@ -5,7 +5,8 @@ const {
   putUser,
   deleteUser,
   getAllUsers,
-  getUserByDocument
+  getUserByDocument,
+  toggleSubscription
 } = require("../controllers/Users");
 const { authenticate, authorize } = require("../controllers/Users/authMiddleware");
 
@@ -23,6 +24,8 @@ router.get("/", authenticate, authorize(['SuperAdmin']), getAllUsers);
 
 // Ruta para obtener un usuario por documento
 router.get("/:n_document", authenticate, authorize(['SuperAdmin']), getUserByDocument);
+
+router.post('/:n_document/toggleSubscription', authenticate, toggleSubscription);
 
 module.exports = router;
 

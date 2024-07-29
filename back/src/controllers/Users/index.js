@@ -5,6 +5,7 @@ const deleteUser = require('./deleteUser');
 const getAllUsers = require('./getAllUsers');
 const getUserByDocument = require('./getUserByDocument');
 const authUser = require('./authUser')
+const toggleSubscription = require('./toggleSubscription')
 
 module.exports = {
   createUsers,
@@ -12,5 +13,6 @@ module.exports = {
   deleteUser,
   getAllUsers,
   getUserByDocument,
-  authUser
+  authUser,
+  toggleSubscription
 };

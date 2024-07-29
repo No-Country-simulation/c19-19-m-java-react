@@ -3,11 +3,15 @@ import { useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
 
 const UserEditPopup = ({ user, onClose }) => {
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState({
+    ...user,
+    subscriptionExpiresAt: user.subscriptionExpiresAt ? user.subscriptionExpiresAt.split('T')[0] : '', // Formato de fecha para el input type="date"
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user: currentUser } = useUser(); 
   const token = currentUser ? currentUser.token : '';
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -169,7 +173,6 @@ const UserEditPopup = ({ user, onClose }) => {
     </div>
   );
 };
-
 export default UserEditPopup;
 
 
