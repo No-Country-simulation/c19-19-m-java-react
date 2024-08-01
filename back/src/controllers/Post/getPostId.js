@@ -1,11 +1,11 @@
-const { Place, Image, Comment, User} = require('../../data');
+const { Place, Image, Comment, User, Rating } = require('../../data');
 const response = require('../../utils/response');
 
 module.exports = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const post = await Place.findByPk(id,{
+    const post = await Place.findByPk(id, {
       include: [
         {
           model: Image,
@@ -20,6 +20,16 @@ module.exports = async (req, res) => {
             }
           ],
           attributes: ['id', 'text', 'n_document', 'placeId'] // Incluye solo los atributos que existen en el modelo Comment
+        },
+        {
+          model: Rating,
+          include: [
+            {
+              model: User,
+              attributes: ['n_document', 'first_name', 'last_name', 'gender', 'email', 'phone', 'city', 'role'] // Incluye solo los atributos que existen en el modelo User
+            }
+          ],
+          attributes: ['id', 'rating', 'placeId', 'n_document'] // Incluye solo los atributos que existen en el modelo Rating
         }
       ]
     });
@@ -34,3 +44,4 @@ module.exports = async (req, res) => {
     return response(res, 500, { error: error.message });
   }
 };
+
