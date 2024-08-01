@@ -31,15 +31,14 @@ const Navbar = () => {
 
   return (
     <nav className="relative">
-<<<<<<< HEAD
+
       <div
         className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${
           scrolled ? "bg-customGrayDark" : "bg-transparent"
         } animate-fade-down animate-ease-in-out`}
       >
-=======
+</div>
       <div className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-customGrayDark' : ' bg-gradient-to-b from-black/60 to-transparent'} animate-fade-down animate-ease-in-out`}>
->>>>>>> 89b4619493a349c7a5d697b05651e87d0acf8641
         <div className="flex items-center justify-between px-2 sm:p-0">
           {/* Logo */}
           <div className="flex items-center">
