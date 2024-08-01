@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-"use client";
-=======
 "use client"
->>>>>>> 5c42710aa98cb1bea99e47adce164acabe8f11b9
 import React, { useState } from 'react';
 import Title from '../texts/Title';
 import Image from 'next/image';
@@ -55,9 +51,3 @@ const Banner = () => {
 };
 
 export default Banner;
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 5c42710aa98cb1bea99e47adce164acabe8f11b9

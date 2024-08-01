@@ -31,8 +31,6 @@ const Navbar = () => {
 
   return (
     <nav className="relative">
-<<<<<<< HEAD
-=======
 
       <div
         className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${
@@ -40,7 +38,6 @@ const Navbar = () => {
         } animate-fade-down animate-ease-in-out`}
       >
 </div>
->>>>>>> 5c42710aa98cb1bea99e47adce164acabe8f11b9
       <div className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-customGrayDark' : ' bg-gradient-to-b from-black/60 to-transparent'} animate-fade-down animate-ease-in-out`}>
         <div className="flex items-center justify-between px-2 sm:p-0">
           {/* Logo */}

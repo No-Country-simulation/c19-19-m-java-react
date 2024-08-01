@@ -8,7 +8,7 @@ export default function Faqs() {
       <SubtitleSpecial>Preguntas frecuentes </SubtitleSpecial>
       <div className="w-2/5 mx-auto relative bottom-2 bg-customGray h-1"></div>
 
-<div className="mx-20">
+<div className="mx-5 lg:mx-20">
       <Subtitle>Pregunta 1</Subtitle>
       <Paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

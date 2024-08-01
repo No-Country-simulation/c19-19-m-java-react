@@ -9,7 +9,7 @@ import MapGuatapé from "./MapGuatapé";
 
 export default function AboutGuatape() {
   return (
-    <div className="py-10">
+    <div className="py-10 flex flex-col lg:flex-row">
       {/* Subtitulo especial con divisores */}
       <div className="flex flex-wrap justify-center">
         <div className="h-1 w-64 mr-10 bg-customGreen"></div>
