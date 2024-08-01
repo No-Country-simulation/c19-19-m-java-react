@@ -53,7 +53,7 @@ const Login = () => {
     <Navbar/>
       <section className=" relative w-full h-[60rem] bg-transparent flex justify-center items-center px-4 sm:px-10">
         <div className=' size-full absolute -z-10 bg-zinc-950'>
-          <Image src={Imagebackground} className=' w-full h-full object-cover object-top blur-sm'></Image>
+          <Image src={Imagebackground} alt="imagen fondo" className=' w-full h-full object-cover object-top blur-sm'></Image>
         </div>
 
         <article className=' p-8 sm:p-6 gap-4 sm:gap-6 max-w-5xl h-auto sm:h-[44rem] flex flex-col-reverse sm:flex-row bg-white rounded-[2rem]'>
@@ -106,7 +106,7 @@ const Login = () => {
           </form>
 
           <div className=' w-full h-44 sm:h-full sm:w-1/2'>
-              <Image src={Imageregister} className=' size-full object-cover object-top rounded-2xl' />
+              <Image src={Imageregister} alt="imagen fondo" className=' size-full object-cover object-top rounded-2xl' />
           </div>
 
         </article>
