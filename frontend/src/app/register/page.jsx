@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 import Image from 'next/image';
 import formImage from '../../Image/form.jpeg';
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/dist/es/styles-compiled.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,10 +21,12 @@ const Register = () => {
     subscriptionStartAt: '',
     subscriptionExpiresAt: '',
     cardNumber: '',
+    cardName: '',
     expiryDate: '',
     cvv: '',
   });
 
+  const [focus, setFocus] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -32,12 +36,11 @@ const Register = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useUser();
-  
-  
+
   const isSubscriptionFlow = searchParams.get('subscription') === 'true';
- useEffect(() => {
+
+  useEffect(() => {
     if (user && (user.role === 'Admin' || user.role === 'SuperAdmin')) {
-      // Mostrar campos adicionales si el usuario es Admin o SuperAdmin
       setFormData(prevFormData => ({
         ...prevFormData,
         role: prevFormData.role,
@@ -48,7 +51,6 @@ const Register = () => {
   }, [user]);
 
   useEffect(() => {
-    
     if (isSubscriptionFlow) {
       setFormData(prevFormData => ({
         ...prevFormData,
@@ -61,12 +63,10 @@ const Register = () => {
     const isFormComplete = () => {
       const requiredFields = ['first_name', 'last_name', 'email', 'password', 'n_document', 'phone', 'city', 'gender'];
 
-      
       if (isSubscriptionFlow) {
-        requiredFields.push('subscriptionStartAt', 'subscriptionExpiresAt', 'cardNumber', 'expiryDate', 'cvv');
+        requiredFields.push('subscriptionStartAt', 'subscriptionExpiresAt', 'cardNumber', 'cardName', 'expiryDate', 'cvv');
       }
 
-      
       return requiredFields.every(field => formData[field] && formData[field].trim() !== '');
     };
 
@@ -141,7 +141,6 @@ const Register = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Nombre</label>
                   <input
@@ -228,7 +227,7 @@ const Register = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
                     required
                   >
-                    <option value="">Seleccione</option>
+                    <option value="">Seleccione  género</option>
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
                     <option value="O">Otro</option>
@@ -258,80 +257,99 @@ const Register = () => {
                         required
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Número de Tarjeta</label>
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        value={formData.cardNumber}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Fecha de Expiración</label>
-                      <input
-                        type="text"
-                        name="expiryDate"
-                        value={formData.expiryDate}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">CVV</label>
-                      <input
-                        type="text"
-                        name="cvv"
-                        value={formData.cvv}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
-                        required
-                      />
-                    </div>
+                    <div className="col-span-2">
+  <label className="text-xl font-semibold p-2 rounded-md ">Información de la Tarjeta</label>
+  <Cards
+    number={formData.cardNumber}
+    name={formData.cardName}
+    expiry={formData.expiryDate}
+    cvc={formData.cvv}
+    focused={focus}
+  />
+  <div className="space-y-3 mt-3">
+    <input
+      type="text"
+      name="cardNumber"
+      value={formData.cardNumber}
+      onChange={handleChange}
+      onFocus={(e) => setFocus(e.target.name)}
+      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+      placeholder="Número de la Tarjeta"
+      required
+    />
+    <input
+      type="text"
+      name="cardName"
+      value={formData.cardName}
+      onChange={handleChange}
+      onFocus={(e) => setFocus(e.target.name)}
+      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+      placeholder="Nombre en la Tarjeta"
+      required
+    />
+    <input
+      type="text"
+      name="expiryDate"
+      value={formData.expiryDate}
+      onChange={handleChange}
+      onFocus={(e) => setFocus(e.target.name)}
+      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+      placeholder="Fecha de Expiración (MM/AA)"
+      required
+    />
+    <input
+      type="text"
+      name="cvv"
+      value={formData.cvv}
+      onChange={handleChange}
+      onFocus={(e) => setFocus(e.target.name)}
+      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+      placeholder="CVV"
+      required
+    />
+  </div>
+</div>
+
                   </>
                 )}
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-end">
                 <button
                   type="submit"
-                  className={`bg-[#3B764C] text-white py-2 px-6 rounded-md hover:bg-[#336843] transition ${
-                    loading ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  disabled={loading || !isFormValid}
+                  className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 disabled:opacity-50"
+                  disabled={!isFormValid || loading}
                 >
-                  {isSubscriptionFlow ? (loading ? 'Registrando...' : 'Confirmar Pago') : (loading ? 'Registrando...' : 'Registrarse')}
+                  {loading ? 'Cargando...' : 'Registrar'}
                 </button>
-                {error && <p className="text-red-500">{error}</p>}
               </div>
             </form>
+            {error && (
+              <div className="mt-4 text-red-500">
+                <p>{error}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      {showPaymentPopup && isSubscriptionFlow && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h3 className="text-lg font-bold mb-4">Confirmar Pago</h3>
-            <p className="mb-4">¿Estás seguro de que deseas confirmar el pago?</p>
-            <form onSubmit={handlePaymentSubmit}>
-              <div className="flex justify-between">
-                <button
-                  type="submit"
-                  className="px-4 py-2 rounded-md font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                >
-                  Confirmar
-                </button>
-                <button
-                  type="button"
-                  onClick={closePopup}
-                  className="px-4 py-2 rounded-md font-semibold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                >
-                  Cancelar
-                </button>
-              </div>
-            </form>
+      {showPaymentPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-semibold mb-4">Confirmar Pago</h3>
+            <p>¿Desea continuar con el registro y pagar la suscripción?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handlePaymentSubmit}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+              >
+                Confirmar
+              </button>
+              <button
+                onClick={closePopup}
+                className="ml-4 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}
