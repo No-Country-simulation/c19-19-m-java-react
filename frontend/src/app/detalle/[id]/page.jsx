@@ -227,9 +227,9 @@ const Detalle = ({ params }) => {
                     const userRating = ratingMap[comment.n_document];
                     return (
                       <div key={comment.id} className="border border-gray-300 rounded-lg p-4 mb-4">
-                        <div className="flex items-center mb-2">
+                        <div className="flex flex-col mb-2">
                           <span className="font-semibold">{comment.User.first_name} {comment.User.last_name}</span>
-                          <div className="ml-4">
+                          <div className=" mt-2">
                             <StarRating rating={userRating || 0} />
                           </div>
                         </div>
