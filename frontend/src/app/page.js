@@ -12,14 +12,14 @@ export default function Home() {
   return (
     
       <main>
-     <Navbar />
+        <Navbar />
         <Banner />
         <Cards />
         <AboutGuatape />
         <Faqs />
         <AboutUs />
         <Footer />
-        {/* <SubscribeButton /> */}
+        <SubscribeButton />
       </main>
     );
 }
