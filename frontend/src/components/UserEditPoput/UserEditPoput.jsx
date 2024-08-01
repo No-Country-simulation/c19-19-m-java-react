@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
+import Swal from 'sweetalert2';
 
 const UserEditPopup = ({ user, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -49,10 +50,22 @@ const UserEditPopup = ({ user, onClose, onUpdate }) => {
 
       const updatedUser = await response.json();
       onUpdate(updatedUser.data);
-      alert('Usuario actualizado con éxito');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: 'Usuario actualizado con éxito',
+        confirmButtonText: 'Aceptar'
+      });
       onClose();
     } catch (error) {
       setError('Error al actualizar el usuario');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al actualizar el usuario',
+        confirmButtonText: 'Aceptar'
+      });
     } finally {
       setLoading(false);
     }
