@@ -103,7 +103,7 @@ const CreatePlace = () => {
       <Navbar />
       <section className="relative w-full h-[60rem] bg-transparent flex justify-center items-center px-4 sm:px-10">
         <div className='size-full absolute -z-10 bg-zinc-950'>
-          <Image src={Imagebackground} className='w-full h-full object-cover object-top blur-sm'></Image>
+          <Image src={Imagebackground} alt="imagen fondo" className='w-full h-full object-cover object-top blur-sm'></Image>
         </div>
 
         <div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import UserEditPopup from '@/components/UserEditPoput/UserEditPoput';
 import { useUser } from '@/app/context/UserContext';
+import Navbar from '@/components/navbar/page';
 
 const UsersList = () => {
     const [users, setUsers] = useState([]);
@@ -91,6 +92,10 @@ const UsersList = () => {
     };
 
     return (
+        <>
+        
+        <Navbar/>
+        <section className=" bg-white relative size-full flex flex-col items-center justify-center px-4 sm:px-8 py-32 gap-8">
         <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-3xl font-bold mb-4 text-gray-900">Usuarios registrados</h1>
             
@@ -149,6 +154,8 @@ const UsersList = () => {
                 <UserEditPopup user={selectedUser} onClose={() => setSelectedUser(null)} onUpdate={handleUserUpdate} />
             )}
         </div>
+        </section>
+        </>
     );
 };
 
