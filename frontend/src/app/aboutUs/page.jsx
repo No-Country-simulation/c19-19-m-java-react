@@ -11,7 +11,7 @@ export default function AboutUs() {
       </div>
 
       {/* Parrafos */}
-      <div className="flex flex-col gap-1 lg:gap-20 mx-5 lg:mx-28 mt-2  lg:mt-0">
+      <div className="flex flex-col lg:flex-row gap-1 lg:gap-20 mx-5 lg:mx-28 mt-2  lg:mt-0">
         <Paragraph light={true}>
           Somos un equipo apasionado por Guatapé, un pueblo mágico que nos cautivó con su
           belleza, historia y calidez humana. Este blog nace con el objetivo de compartir
