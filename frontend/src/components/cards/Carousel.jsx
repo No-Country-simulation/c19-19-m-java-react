@@ -5,7 +5,7 @@ import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import StarRating from './StarRating';
 import Link from 'next/link';
 
-const Carousel = ({ items, type }) => {
+const Carousel = ({ items,  itemsToShow = 6 }) => {
   const carouselRef = useRef(null);
 
   const scroll = (direction) => {
@@ -25,13 +25,13 @@ const Carousel = ({ items, type }) => {
       </button>
       <div
         ref={carouselRef}
-        className="flex space-x-6 overflow-x-hidden scrollbar-hide"
-
+        className="flex space-x-6 overflow-x-hidden scrollbar-hide mx-auto"
+        style={{ maxWidth: `calc(${itemsToShow} * 16rem + ${(itemsToShow - 1) * 1.5}rem)` }} // Ajusta el ancho máximo
       >
         {items.map((item, index) => (
           <Link href={`/detalle/${item.placeId}`} key={index}>
             <div 
-              className="mb-5 min-w-[16rem] md:min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer flex flex-col"
+              className="mb-5 min-w-[16rem] bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer flex flex-col"
               style={{ height: '24rem' }} // Altura fija para las tarjetas
             >
               {item.Images && item.Images.length > 0 ? (
@@ -58,9 +58,7 @@ const Carousel = ({ items, type }) => {
                 <StarRating rating={Math.round(item.valoracion)} />
               </div>
             </div>
-
           </Link>
-
         ))}
       </div>
       <button
@@ -72,7 +70,6 @@ const Carousel = ({ items, type }) => {
     </div>
   );
 };
-
 
 export default Carousel;
 
