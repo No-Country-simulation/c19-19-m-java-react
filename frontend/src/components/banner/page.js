@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-import Title from "../texts/Title";
-import Image from "next/image";
-import Timeset from "./Timeset";
-import Wheater from "./Wheater";
-import Filters from "../filters/page";
-
-const Banner = () => {
-  return (
-    <header className="bg-cover bg-center">
-      <div className="bg-black/30 relative w-full h-[55rem] flex flex-col items-center justify-center">
-        {/* Video de Fondo */}
-        <video className="w-full h-full object-cover absolute -z-10" loop autoPlay muted>
-          <source src={"/videoback.mp4"} type="video/mp4" />
-        </video>
-=======
-"use client"
+"use client";
 import React, { useState } from 'react';
 import Title from '../texts/Title';
 import Image from 'next/image';
@@ -45,7 +29,6 @@ const Banner = () => {
               <Wheater />
             </span>
           </div>
->>>>>>> 89b4619493a349c7a5d697b05651e87d0acf8641
 
           <div className="text-center px-4 text-white my-auto pt-28">
             <Title styleAdd="text-7xl sm:text-8xl animate-fade-up animate-ease-in-out">Rincones de Guatapé</Title>
@@ -58,38 +41,16 @@ const Banner = () => {
         </div>
       </header>
 
-<<<<<<< HEAD
-        {/* Título */}
-        <div className="text-center px-4 text-white my-auto pt-28">
-          <Title styleAdd=" text-7xl sm:text-8xl animate-fade-up animate-ease-in-out">
-            Rincones de Guatapé
-          </Title>
-          <Title styleAdd=" text-4xl sm:text-5xl animate-fade-up animate-delay-200 animate-ease-in-out">
-            Un paraíso escondido en Colombia
-          </Title>
-        </div>
-
-        {/* Filtros */}
-        <div className=" mb-8 px-4 w-full">
-          <Filters />
-        </div>
-      </div>
-    </header>
-=======
       {filteredResults.length > 0 && (
         <section className="w-full px-4 mt-16"> {/* Agregué un margen superior */}
           <Carousel items={filteredResults} itemsToShow={6} />
         </section>
       )}
     </>
->>>>>>> 89b4619493a349c7a5d697b05651e87d0acf8641
   );
 };
 
 export default Banner;
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 89b4619493a349c7a5d697b05651e87d0acf8641

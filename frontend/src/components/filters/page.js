@@ -31,9 +31,9 @@ const Filters = ({ setFilteredResults }) => {
 
   return (
     <div className="bg-gray-100/70 w-full lg:max-w-4xl mx-auto backdrop-blur-md rounded-3xl sm:rounded-full p-4">
-      <div className=' text-center text-3xl'>
-        <Subtitle> <em>Te recomendamos</em> </Subtitle>
-      </div>
+      
+        <Subtitle styleAdd='text-center italic'>Te recomendamos</Subtitle>
+      
 
       <hr className=' mt-2 mb-3 w-10/12 flex mx-auto' />
 
