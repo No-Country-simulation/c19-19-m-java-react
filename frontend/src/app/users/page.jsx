@@ -19,7 +19,6 @@ const UsersList = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                       
                     },
                 });
 
@@ -77,7 +76,7 @@ const UsersList = () => {
             }
 
             const updatedUser = await response.json();
-            setUsers(users.map(u => (u.n_document === updatedUser.data.n_document ? updatedUser.data : u)));
+            handleUserUpdate(updatedUser.data);
         } catch (error) {
             console.error('Error toggling subscription:', error);
         }
@@ -91,7 +90,7 @@ const UsersList = () => {
         return diffDays <= 30; // Consider expiring if less than 30 days
     };
 
-     return (
+    return (
         <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-3xl font-bold mb-4 text-gray-900">Usuarios registrados</h1>
             
@@ -147,12 +146,13 @@ const UsersList = () => {
             </div>
 
             {selectedUser && (
-                <UserEditPopup user={selectedUser} onClose={() => setSelectedUser(null)} onUpdate={handleUserUpdate}/>
+                <UserEditPopup user={selectedUser} onClose={() => setSelectedUser(null)} onUpdate={handleUserUpdate} />
             )}
         </div>
     );
 };
 
 export default UsersList;
+
 
 
