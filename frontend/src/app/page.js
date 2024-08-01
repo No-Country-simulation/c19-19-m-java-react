@@ -19,7 +19,7 @@ export default function Home() {
         <Faqs />
         <AboutUs />
         <Footer />
-         <SubscribeButton />
+        {/* <SubscribeButton /> */}
       </main>
     );
 }
