@@ -22,7 +22,7 @@ const fetchPlace = async (id) => {
     }
     const data = await response.json();
     
-    // console.log('Fetched place data:', data);
+    console.log('Fetched place data:', data);
 
     return data.data.post;
   } catch (error) {
@@ -144,7 +144,12 @@ const Detalle = ({ params }) => {
     e.preventDefault(); // Evitar que se abra el link
     Fancybox.show([{ src: url, type: "image" }]);
   };
-  
+  // Create a mapping from user n_document to their rating
+  const ratingMap = place.Ratings.reduce((acc, rating) => {
+    acc[rating.n_document] = rating.rating;
+    return acc;
+  }, {});
+
 
   return (
     <>
@@ -217,20 +222,25 @@ const Detalle = ({ params }) => {
             <h3 className="text-2xl font-semibold text-black mt-8 mb-4">Comentarios:</h3>
 
             <div className=''>
-              {place.Comments && place.Comments.length > 0 ? (
-                place.Comments.map((comment) => (
-                  <><div key={comment.id} className=" p-4 text-black">
-                    <span className="text-lg font-medium mb-2">{comment.User ? comment.User.first_name : 'Anónimo'}</span>
-                    <div className="flex items-center mb-2">
-                      <StarRating rating={comment.rating} />
-                    </div>
-                    <p>{comment.text}</p>
-                  </div><hr /></>
-                ))
-              ) : (
-                <p>No hay comentarios disponibles</p>
-              )}
-            </div>
+                {place.Comments && place.Comments.length > 0 ? (
+                  place.Comments.map((comment) => {
+                    const userRating = ratingMap[comment.n_document];
+                    return (
+                      <div key={comment.id} className="border border-gray-300 rounded-lg p-4 mb-4">
+                        <div className="flex items-center mb-2">
+                          <span className="font-semibold">{comment.User.first_name} {comment.User.last_name}</span>
+                          <div className="ml-4">
+                            <StarRating rating={userRating || 0} />
+                          </div>
+                        </div>
+                        <p>{comment.text}</p>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div>No hay comentarios disponibles</div>
+                )}
+              </div>
           </div>
           
           <div className=' w-full lg:w-1/2'>
