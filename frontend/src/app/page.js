@@ -7,10 +7,12 @@ import Footer from "@/components/footer/page";
 import AboutGuatape from "./aboutGuatape/page";
 import Faqs from "./faqs/page";
 import AboutUs from "./aboutUs/page";
+import SubscribeButton from "@/components/buttons/SubscribeButton";
 export default function Home() {
   return (
     <div>
       <main>
+
      <Navbar />
         <Banner />
         <Cards />
@@ -18,6 +20,7 @@ export default function Home() {
         <Faqs />
         <AboutUs />
         <Footer />
+        <SubscribeButton />
       </main>
     </div>
   );
