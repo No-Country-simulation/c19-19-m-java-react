@@ -6,8 +6,8 @@ export default function AboutUs() {
     <div className="bg-customBlueDark py-10">
       {/* Subtitulo + divisor */}
       <div className="w-3/5 lg:w-2/5">
-        <SubtitleSpecial light={true}>Sobre nosotros</SubtitleSpecial>
-        <div className="mx-auto  lg:ml-20 relative lg:bottom-2 bg-customGray h-1"></div>
+        <SubtitleSpecial styleAdd="ml-20 " light={true}>Sobre nosotros</SubtitleSpecial>
+        <div className="mx-auto lg:ml-20 relative lg:bottom-2 bg-customGray h-1"></div>
       </div>
 
       {/* Parrafos */}
