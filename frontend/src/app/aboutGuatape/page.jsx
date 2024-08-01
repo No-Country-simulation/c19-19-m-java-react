@@ -21,7 +21,7 @@ export default function AboutGuatape() {
 
       {/* Parrafos */}
       <div className="flex">
-        <div className="w-2/5 ml-20 mr-10">
+        <div className="lg:w-2/5 ml-20 mr-10">
           <Subtitle>Un pueblo multicolor</Subtitle>
 
           <Paragraph>
