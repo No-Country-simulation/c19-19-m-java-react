@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/navbar/page";
 import Banner from "@/components/banner/page";
@@ -9,9 +8,9 @@ import Faqs from "./faqs/page";
 import AboutUs from "./aboutUs/page";
 export default function Home() {
   return (
-    <div>
+    
       <main>
-     <Navbar />
+        <Navbar />
         <Banner />
         <Cards />
         <AboutGuatape />
@@ -19,6 +18,5 @@ export default function Home() {
         <AboutUs />
         <Footer />
       </main>
-    </div>
-  );
+    );
 }

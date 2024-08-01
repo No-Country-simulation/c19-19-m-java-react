@@ -1,11 +1,13 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import Linknav from './Linknav';
-import ButtonLogin from '../buttons/ButtonLogin';
-import Bttlogins from './Bttlogins';
-import Menunav from './Menunav';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import Linknav from "./Linknav";
+import ButtonLogin from "../buttons/ButtonLogin";
+import Bttlogins from "./Bttlogins";
+import Menunav from "./Menunav";
+import Title from "../texts/Title";
+import ButtonNav from "../buttons/ButtonNav";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -20,24 +22,29 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <nav className="relative">
-      <div className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-customGrayDark' : 'bg-transparent'} animate-fade-down animate-ease-in-out`}>
+      <div
+        className={`w-full fixed mx-auto px-4 py-2 sm:px-6 lg:px-8 top-0 z-50 transition-colors duration-300 ${
+          scrolled ? "bg-customGrayDark" : "bg-transparent"
+        } animate-fade-down animate-ease-in-out`}
+      >
         <div className="flex items-center justify-between px-2 sm:p-0">
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
               <Image src="/logo.svg" alt="Rincones de Guatapé" width={50} height={50} />
-              <h2 className="text-white text-xl font-txTitle text-left">
-                Rincones de <br />Guatapé
-              </h2>
+              <Title styleAdd="text-xl">
+                Rincones de <br />
+                Guatapé
+              </Title>
             </Link>
           </div>
 
@@ -50,25 +57,21 @@ const Navbar = () => {
                 checked={menuOpen}
                 onChange={() => setMenuOpen(!menuOpen)}
               />
-              <div
-                className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 peer-checked:rotate-[225deg] origin-right peer-checked:-translate-x-[12px] peer-checked:-translate-y-[1px]"
-              ></div>
-              <div
-                className="rounded-2xl h-[3px] w-full bg-white duration-500 peer-checked:-rotate-45"
-              ></div>
-              <div
-                className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 place-self-end peer-checked:rotate-[225deg] origin-left peer-checked:translate-x-[12px] peer-checked:translate-y-[1px]"
-              ></div>
+              <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 peer-checked:rotate-[225deg] origin-right peer-checked:-translate-x-[12px] peer-checked:-translate-y-[1px]"></div>
+              <div className="rounded-2xl h-[3px] w-full bg-white duration-500 peer-checked:-rotate-45"></div>
+              <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 place-self-end peer-checked:rotate-[225deg] origin-left peer-checked:translate-x-[12px] peer-checked:translate-y-[1px]"></div>
             </label>
           </div>
 
           {/* Enlaces y Botones */}
           <div className="lg:flex space-x-4 pr-10 hidden">
-            <Linknav href={"/"}>Inicio</Linknav>
-            <Linknav href={"/wheretoeat"}>Donde Comer</Linknav>
-            <Linknav href={"/wheretogo"}>Donde ir</Linknav>
-            <Linknav href={"/whattodo"}>Que hacer</Linknav>
-            <Linknav href={"/contact"}>Contacto</Linknav>
+            <ButtonNav to={"/"} active={true}>
+              Inicio
+            </ButtonNav>
+            <ButtonNav to={"/wheretoeat"}>Donde Comer</ButtonNav>
+            <ButtonNav to={"/wheretogo"}>Donde ir</ButtonNav>
+            <ButtonNav to={"/whattodo"}>Que hacer</ButtonNav>
+            <ButtonNav to={"/contact"}>Contacto</ButtonNav>
           </div>
 
           {/* Botones de Inicio de Sesión y Registro */}
@@ -83,5 +86,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
