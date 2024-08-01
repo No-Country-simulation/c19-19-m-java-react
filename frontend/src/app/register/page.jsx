@@ -1,7 +1,6 @@
 "use client";
-
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 import Image from 'next/image';
 import formImage from '../../Image/form.jpeg';
@@ -15,22 +14,30 @@ const Register = () => {
     n_document: '',
     phone: '',
     city: '',
-    role: 'User',
+    role: 'User', // Default role
     gender: '',
     subscriptionStartAt: '',
     subscriptionExpiresAt: '',
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const router = useRouter(); 
-  const { user } = useUser(); // Obtén el usuario del contexto
-
-  useEffect(() => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user } = useUser();
+  
+  
+  const isSubscriptionFlow = searchParams.get('subscription') === 'true';
+ useEffect(() => {
     if (user && (user.role === 'Admin' || user.role === 'SuperAdmin')) {
-      // Mostrar los campos 'role' y 'subscription' si el usuario está logueado y es Admin o SuperAdmin
+      // Mostrar campos adicionales si el usuario es Admin o SuperAdmin
       setFormData(prevFormData => ({
         ...prevFormData,
         role: prevFormData.role,
@@ -40,37 +47,53 @@ const Register = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    
+    if (isSubscriptionFlow) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        role: 'Admin',
+      }));
+    }
+  }, [isSubscriptionFlow]);
+
+  useEffect(() => {
+    const isFormComplete = () => {
+      const requiredFields = ['first_name', 'last_name', 'email', 'password', 'n_document', 'phone', 'city', 'gender'];
+
+      
+      if (isSubscriptionFlow) {
+        requiredFields.push('subscriptionStartAt', 'subscriptionExpiresAt', 'cardNumber', 'expiryDate', 'cvv');
+      }
+
+      
+      return requiredFields.every(field => formData[field] && formData[field].trim() !== '');
+    };
+
+    setIsFormValid(isFormComplete());
+  }, [formData, isSubscriptionFlow]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Actualiza el estado basado en el tipo de input
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value,
     }));
   };
 
-
-  //   // Si el checkbox de subscription se marca, establece la fecha actual
-  //   if (name === 'subscription' && checked) {
-  //     setFormData(prevFormData => ({
-  //       ...prevFormData,
-  //       subscriptionExpiresAt: new Date().toISOString()
-  //     }));
-  //   } else if (name === 'subscription' && !checked) {
-  //     // Si se desmarca, puedes limpiar la fecha si lo deseas
-  //     setFormData(prevFormData => ({
-  //       ...prevFormData,
-  //       subscriptionExpiresAt: ''
-  //     }));
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubscriptionFlow) {
+      setShowPaymentPopup(true);
+    } else {
+      await submitForm();
+    }
+  };
+
+  const submitForm = async () => {
     setLoading(true);
     setError(null);
- console.log(formData)
+
     try {
       const response = await fetch('http://localhost:3001/auth/register', {
         method: 'POST',
@@ -78,17 +101,13 @@ const Register = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-        
       });
 
       const data = await response.json();
 
-     
-
       if (response.ok) {
         setUserInfo(data);
-       
-        router.push('/');
+        router.push('/'); 
       } else {
         setError(data.message || 'Error en el registro');
       }
@@ -97,6 +116,16 @@ const Register = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePaymentSubmit = async (e) => {
+    e.preventDefault();
+    await submitForm();
+    setShowPaymentPopup(false); 
+  };
+
+  const closePopup = () => {
+    setShowPaymentPopup(false);
   };
 
   return (
@@ -112,6 +141,7 @@ const Register = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Nombre</label>
                   <input
@@ -175,6 +205,7 @@ const Register = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                    required
                   />
                 </div>
                 <div>
@@ -185,6 +216,7 @@ const Register = () => {
                     value={formData.city}
                     onChange={handleChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                    required
                   />
                 </div>
                 <div>
@@ -194,6 +226,7 @@ const Register = () => {
                     value={formData.gender}
                     onChange={handleChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                    required
                   >
                     <option value="">Seleccione</option>
                     <option value="M">Masculino</option>
@@ -201,61 +234,113 @@ const Register = () => {
                     <option value="O">Otro</option>
                   </select>
                 </div>
-                {(user && (user.role === 'Admin' || user.role === 'SuperAdmin')) && (
+                {isSubscriptionFlow && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Rol</label>
-                      <select
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
-                      >
-                        <option value="User">Usuario</option>
-                        <option value="Admin">Administrador</option>
-                        <option value="SuperAdmin">SuperAdmin</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Inicio de Suscripción</label>
+                      <label className="block text-sm font-medium text-gray-700">Fecha de Inicio de Suscripción</label>
                       <input
                         type="date"
                         name="subscriptionStartAt"
                         value={formData.subscriptionStartAt}
                         onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                        required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Fin de Suscripción</label>
+                      <label className="block text-sm font-medium text-gray-700">Fecha de Expiración de Suscripción</label>
                       <input
                         type="date"
                         name="subscriptionExpiresAt"
                         value={formData.subscriptionExpiresAt}
                         onChange={handleChange}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Número de Tarjeta</label>
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        value={formData.cardNumber}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Fecha de Expiración</label>
+                      <input
+                        type="text"
+                        name="expiryDate"
+                        value={formData.expiryDate}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">CVV</label>
+                      <input
+                        type="text"
+                        name="cvv"
+                        value={formData.cvv}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-[#F1F1F1]"
+                        required
                       />
                     </div>
                   </>
                 )}
               </div>
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-between items-center">
                 <button
                   type="submit"
-                  className="bg-[#3B764C] text-white py-2 px-6 rounded-md hover:bg-[#336843] transition"
-                  disabled={loading}
+                  className={`bg-[#3B764C] text-white py-2 px-6 rounded-md hover:bg-[#336843] transition ${
+                    loading ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  disabled={loading || !isFormValid}
                 >
-                  {loading ? 'Registrando...' : 'Enviar'}
+                  {isSubscriptionFlow ? (loading ? 'Registrando...' : 'Confirmar Pago') : (loading ? 'Registrando...' : 'Registrarse')}
                 </button>
+                {error && <p className="text-red-500">{error}</p>}
               </div>
-              {error && <div className="text-red-500 text-center mt-2">{error}</div>}
-              {userInfo && <div className="text-green-500 text-center mt-2">Registro exitoso!</div>}
             </form>
           </div>
         </div>
       </div>
+      {showPaymentPopup && isSubscriptionFlow && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h3 className="text-lg font-bold mb-4">Confirmar Pago</h3>
+            <p className="mb-4">¿Estás seguro de que deseas confirmar el pago?</p>
+            <form onSubmit={handlePaymentSubmit}>
+              <div className="flex justify-between">
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-md font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                  Confirmar
+                </button>
+                <button
+                  type="button"
+                  onClick={closePopup}
+                  className="px-4 py-2 rounded-md font-semibold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Register;
+
+
+
+

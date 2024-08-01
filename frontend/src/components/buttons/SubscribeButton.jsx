@@ -6,7 +6,7 @@ const SubscribeButton = () => {
     const router = useRouter();
 
     const handleClick = () => {
-        router.push('/register');
+        router.push('/register?subscription=true');
     };
 
     return (
@@ -16,9 +16,10 @@ const SubscribeButton = () => {
             aria-label="Suscríbete"
         >
             <span className="text-2xl font-bold">¡Suscríbete!</span>
-         
         </button>
     );
 };
 
 export default SubscribeButton;
+
+
