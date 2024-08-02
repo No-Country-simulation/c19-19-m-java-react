@@ -8,36 +8,26 @@ export default function Faqs() {
       <SubtitleSpecial>Preguntas frecuentes </SubtitleSpecial>
       <div className="w-2/5 mx-auto relative bottom-2 bg-customGray h-1"></div>
 
-<div className="mx-5 lg:mx-20">
-      <Subtitle>Pregunta 1</Subtitle>
-      <Paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum
-      </Paragraph>
+      <div className="mx-5 lg:mx-20">
+        <Subtitle>¿Cómo me suscribo?</Subtitle>
+        <Paragraph>
+          Busca el botón de suscripción, completa los datos del formulario, introduce el
+          método de pago de tu preferencia (tarjeta de débito o crédito) y por último haz
+          click en el botón “Confirmar pago" . ¡Listo, ya puedes comenzar a publicar tus
+          servicios!
+        </Paragraph>
 
-      <Subtitle>Pregunta 2</Subtitle>
-      <Paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum
-      </Paragraph>
+        <Subtitle>¿Cómo cancelo la suscripción?</Subtitle>
+        <Paragraph>
+          Toda suscripción tiene una fecha de expiración la cuál marca el fin de la
+          suscripción. ¡No necesitas realizar nada extra!
+        </Paragraph>
 
-      <Subtitle>Pregunta 3</Subtitle>
-      <Paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum
-      </Paragraph>
+        <Subtitle>¿Cómo extiendo mi suscripción?</Subtitle>
+        <Paragraph>
+          Luego de finalizada la fecha de expiración, podrás suscribirte nuevamente y
+          ampliar tu fecha de finalización. ¡Bienvenido nuevamente!
+        </Paragraph>
       </div>
     </div>
   );
