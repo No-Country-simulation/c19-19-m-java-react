@@ -71,9 +71,9 @@ const Navbar = () => {
             <ButtonNav to={"/"} active={true}>
               Inicio
             </ButtonNav>
-            <ButtonNav to={"/wheretoeat"}>Donde Comer</ButtonNav>
-            <ButtonNav to={"/wheretogo"}>Donde ir</ButtonNav>
-            <ButtonNav to={"/whattodo"}>Que hacer</ButtonNav>
+            <ButtonNav to={"#hoteles"}>Donde alojarse</ButtonNav>
+            <ButtonNav to={"#restaurantes"}>Donde comer</ButtonNav>
+            <ButtonNav to={"#actividades"}>Que hacer</ButtonNav>
             <ButtonNav to={"/contact"}>Contacto</ButtonNav>
           </div>
 
