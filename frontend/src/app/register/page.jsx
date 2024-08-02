@@ -6,6 +6,8 @@ import Image from 'next/image';
 import formImage from '../../Image/form.jpeg';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import Navbar from '@/components/navbar/page';
+import Footer from '@/components/footer/page';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -129,6 +131,10 @@ const Register = () => {
   };
 
   return (
+    <>
+    <Navbar/>
+      
+        
     <div className="flex flex-col min-h-screen bg-gray-100">
       <div className="flex flex-grow items-center justify-center">
         <div className="relative w-full max-w-4xl flex rounded-lg shadow-md overflow-hidden">
@@ -354,6 +360,9 @@ const Register = () => {
         </div>
       )}
     </div>
+    
+    <Footer/>
+    </>
   );
 };
 
