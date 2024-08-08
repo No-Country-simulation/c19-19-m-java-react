@@ -7,7 +7,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+package-lock.json
 # testing
 /coverage
 
@@ -22,6 +22,7 @@
 .DS_Store
 *.pem
 /ui/
+/Referencia/
 
 # debug
 npm-debug.log*
@@ -37,3 +38,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+

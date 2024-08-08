@@ -28,6 +28,10 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM('hotel', 'actividad', 'restaurante'),
       allowNull: false,
     },
+    n_document:{
+      type: DataTypes.STRING,
+      allowNull: false, 
+    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,

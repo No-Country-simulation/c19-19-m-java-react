@@ -1,3 +1,4 @@
+
 const express = require('express');
 const session = require('express-session');
 const morgan = require('morgan');
@@ -48,5 +49,8 @@ app.use((err, req, res, netx) => {
     message: err.message,
   });
 });
+
+// Importa e inicia la tarea programada
+require('./utils/subscriptionChecker');
 
 module.exports = app;

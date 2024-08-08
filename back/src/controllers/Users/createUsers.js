@@ -36,7 +36,9 @@ module.exports = async (req, res) => {
       password: hash,
       phone: user.phone,
       city: user.city,
-      role: user.role 
+      role: user.role,
+      subscriptionStartAt: user.subscriptionStartAt || null,
+      subscriptionExpiresAt: user.subscriptionExpiresAt || null,
     });
 
     // Crear token

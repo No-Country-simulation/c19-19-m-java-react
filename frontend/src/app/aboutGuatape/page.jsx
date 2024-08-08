@@ -12,16 +12,16 @@ export default function AboutGuatape() {
     <div className="py-10">
       {/* Subtitulo especial con divisores */}
       <div className="flex flex-wrap justify-center">
-        <div className="h-1 w-64 mr-10 bg-customGreen"></div>
+        <div className=" hidden lg:block h-1 w-64 mr-10 bg-customGreen"></div>
         <SubtitleSpecial green={true} styleAdd="py-2">
           Conoce Guatapé
         </SubtitleSpecial>
-        <div className="h-1 w-64 ml-10 bg-customGreen"></div>
+        <div className="h-1 w-64 lg:ml-10 bg-customGreen"></div>
       </div>
 
       {/* Parrafos */}
-      <div className="flex">
-        <div className="w-2/5 ml-20 mr-10">
+      <div className="flex flex-col lg:flex-row">
+        <div className="lg:w-2/5 ml-5 mr-5 lg:ml-20 lg:mr-10">
           <Subtitle>Un pueblo multicolor</Subtitle>
 
           <Paragraph>
@@ -52,7 +52,7 @@ export default function AboutGuatape() {
         </div>
 
         {/* Mapa */}
-        <div className="w-2/5 mx-20 flex items-center">
+        <div className="lg:w-2/5 mx-5 lg:mx-20 flex items-center">
           <MapGuatapé />
         </div>
       </div>

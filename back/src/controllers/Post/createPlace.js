@@ -30,10 +30,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-      // Registro para verificar el contenido de req.body
-      console.log('Request body:', req.body);
-
-      // Limpiar los nombres de los campos
+      // Limpiar datos del cuerpo de la solicitud
       const cleanedBody = {};
       for (let key in req.body) {
         cleanedBody[key.trim()] = req.body[key].trim();
@@ -41,30 +38,34 @@ module.exports = async (req, res) => {
 
       const { nombre, descripcion, valoracion, ubicacion, tipo } = cleanedBody;
 
-      // Verificar que los campos requeridos no estén vacíos
       if (!nombre || !descripcion || !valoracion || !ubicacion || !tipo) {
         return response(res, 400, { error: 'Missing required fields' });
       }
 
       const images = req.files;
+      // Verifica que req.user esté disponible y que n_document exista
+      if (!req.user || !req.user.n_document) {
+        return res.status(400).json({ error: 'User is not authenticated or n_document is missing' });
+      }
 
-      // Crear el Place primero
+      const n_document = req.user.n_document; 
+
+      // Crear el lugar
       const place = await Place.create({
         nombre,
         descripcion,
         valoracion: parseFloat(valoracion),
         ubicacion,
         tipo,
+        n_document // Asociar el lugar con el usuario
       });
 
-      // Si se subieron imágenes, asociarlas al Place
       if (images && images.length > 0) {
-        const imagePromises = images.map(async (image) => {
-          const createdImage = await Image.create({
-            placeId: place.id,
-            url: image.path, // Utilizar la URL de Cloudinary
+        const imagePromises = images.map((image) => {
+          return Image.create({
+            placeId: place.placeId,
+            url: image.path,
           });
-          return createdImage;
         });
 
         await Promise.all(imagePromises);
@@ -78,4 +79,6 @@ module.exports = async (req, res) => {
     }
   });
 };
+
+
 

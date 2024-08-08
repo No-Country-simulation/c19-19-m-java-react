@@ -1,16 +1,22 @@
-"use client"; // Esto marca el componente como un componente de cliente
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Importa useRouter desde next/navigation
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '../context/UserContext';
+import Navbar from '@/components/navbar/page';
+import Footer from '@/components/footer/page';
+import Image from 'next/image';
+import Imageregister from '../../Image/login.webp';
+import Imagebackground from '../../Image/backlogin.webp';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
 
-  const router = useRouter(); // Usa useRouter desde next/navigation
+  const router = useRouter();
+  const { login } = useUser();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -26,68 +32,91 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setUserInfo(data);
-        // Almacena el token o la información del usuario según sea necesario
-        localStorage.setItem('userInfo', JSON.stringify(data));
-      } else {
-        setError(data.message || 'Error en el inicio de sesión');
+      if (!response.ok) {
+        throw new Error('Error en el inicio de sesión');
       }
-    } catch (error) {
-      setError('Error en el servidor');
-    }
 
-    setLoading(false);
+      const data = await response.json();
+      const { token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt } = data.data;
+
+      login({ token, n_document, role, first_name, last_name, subscriptionStartAt, subscriptionExpiresAt}); // Establece el usuario en el contexto
+      router.push('/'); // Redirige al inicio
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => {
-    if (userInfo) {
-      router.push('/'); // Navega a la página principal si el usuario está autenticado
-    }
-  }, [userInfo, router]);
-
   return (
-    <div className="container mx-auto px-4">
-      <form onSubmit={submitHandler} className="max-w-lg mx-auto bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl mb-6 text-center">Iniciar Sesión</h2>
-        {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>}
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
+    <>
+    <Navbar/>
+      <section className=" relative w-full h-[60rem] bg-transparent flex justify-center items-center px-4 sm:px-10">
+        <div className=' size-full absolute -z-10 bg-zinc-950'>
+          <Image src={Imagebackground} alt="imagen fondo" className=' w-full h-full object-cover object-top blur-sm'></Image>
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            {loading ? 'Cargando...' : 'Iniciar Sesión'}
-          </button>
-        </div>
-      </form>
-    </div>
+
+        <article className=' p-8 sm:p-6 gap-4 sm:gap-6 max-w-5xl h-auto sm:h-[44rem] flex flex-col-reverse sm:flex-row bg-white rounded-[2rem]'>
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
+          <form onSubmit={submitHandler} className=" w-full sm:w-1/2 h-auto sm:px-8 flex flex-col justify-center items-center">
+            <div className=" text-left mb-8">  
+              <h2 className="text-2xl font-semibold  text-black mb-2">¡Bienvenido Turista! 👋</h2>
+              <p>Inicia sesión para explorar y descubrir los encantos de este paraíso escondido.</p>
+            </div>
+
+            <label className="block mb-4 w-full">
+              <span className="text-gray-700">Correo Electrónico</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder='example@gmail.com'
+                required
+              />
+            </label>
+            <label className="block mb-4 w-full">
+              <span className="text-gray-700">Contraseña</span>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder=' Hasta 8 caracteres'
+                required
+              />
+            </label>
+            <button
+              type="submit"
+              className=" bg-green-500 hover:scale-105 hover:shadow-xl transition-all text-white p-2 rounded w-full"
+              disabled={loading}
+            >
+              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            </button>
+
+            <div>
+              <p className="mt-8 text-sm text-gray-600">
+                ¿No tienes una cuenta?{' '}
+                <a href="/register" className="font-medium text-green-500 hover:text-green-700">
+                  Regístrate
+                </a>
+              </p>
+            </div>
+          </form>
+
+          <div className=' w-full h-44 sm:h-full sm:w-1/2'>
+              <Image src={Imageregister} alt="imagen fondo" className=' size-full object-cover object-top rounded-2xl' />
+          </div>
+
+        </article>
+      </section>
+    <Footer/>
+    </>
   );
 };
 
 export default Login;
+
+
+

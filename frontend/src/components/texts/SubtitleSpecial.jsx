@@ -8,5 +8,5 @@ export default function SubtitleSpecial({ children, light = false, green =false,
   if(green) {color = "text-customGreen"}
   if(light) {color = "text-customGray"}
 
-  return <h2 className={`font-txMogra text-2xl w-full text-center  ${color} ${styleAdd}`}>{children}</h2>;
+  return <h2 className={`font-txMogra text-2xl w-full text-center ${styleAdd} ${color} `}>{children}</h2>;
 }

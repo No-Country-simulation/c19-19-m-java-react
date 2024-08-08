@@ -38,8 +38,28 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       role: {
-        type: DataTypes.ENUM('User', 'Admin'),
+        type: DataTypes.ENUM('User', 'Admin', 'SuperAdmin'),
         defaultValue: 'User',
+      },
+      subscriptionStartAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      subscriptionExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      subscriptionActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      subscriptionReminderSent: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       deletedAt: {
         type: DataTypes.DATE,

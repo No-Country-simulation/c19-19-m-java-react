@@ -1,15 +1,17 @@
-/* 
-        # Modo de uso
-        Ver ButtonLogin
- */
-import Link from "next/link";
-export default function ButtonSession({ to, children, addStyle }) {
+export default function ButtonSession({ to, children, addStyle, onClick }) {
+  const handleClick = () => {
+    if (onClick) onClick(); // Llama a la función onClick si existe
+    if (to) window.location.href = to; // Navega a la ruta especificada si existe
+  };
+
   return (
-    <>
-    <button className={` hover:bg-customGreen flex  justify-center items-center rounded-full size-10 shadow-lg shadow-customBrown hover:shadow-customGreenLight ${addStyle}`}>
-      <Link href={to}>{children}</Link>
+    <button
+      onClick={handleClick}
+      className={`hover:bg-customGreen flex justify-center items-center rounded-full size-10 shadow-lg shadow-customBrown hover:shadow-customGreenLight ${addStyle}`}
+    >
+      {children}
     </button>
-     
-    </>
   );
 }
+
+

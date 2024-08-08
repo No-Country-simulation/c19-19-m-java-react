@@ -4,6 +4,7 @@ const {catchedAsync} = require("../utils");
 
 
 
+
 module.exports = {
     
    
@@ -14,5 +15,8 @@ module.exports = {
     putUser:catchedAsync(require("./Users/putUser")),
     deleteUser:catchedAsync(require("./Users/deleteUser")),
     createUsers:catchedAsync(require("./Users/createUsers")),
-    createPlace:catchedAsync(require("./Post/createPlace"))
+    createPlace:catchedAsync(require("./Post/createPlace")),
+    newComment:catchedAsync(require("./Comment/comment")),
+    newRating:catchedAsync(require("./Rating/rating")),
+    toggleSubscription:catchedAsync(require("./Users/toggleSubscription"))
 }

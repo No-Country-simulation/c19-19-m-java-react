@@ -28,5 +28,5 @@ export default function MenuText({
   if (searchInactive) {
     color = "text-customBrown";
   }
-  return <p className={`font-txSpartan ${styleAdd} ${color}`}>{children}</p>;
+  return <p className={`font-txSpartan  font-medium w-full text-center ${styleAdd} ${color}`}>{children}</p>;
 }

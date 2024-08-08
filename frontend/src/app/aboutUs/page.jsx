@@ -5,13 +5,13 @@ export default function AboutUs() {
   return (
     <div className="bg-customBlueDark py-10">
       {/* Subtitulo + divisor */}
-      <div className="w-2/5">
+      <div className="w-3/5 lg:w-2/5">
         <SubtitleSpecial light={true}>Sobre nosotros</SubtitleSpecial>
-        <div className="mx-auto ml-20 relative bottom-2 bg-customGray h-1"></div>
+        <div className="mx-auto lg:ml-20 relative lg:bottom-2 bg-customGray h-1"></div>
       </div>
 
       {/* Parrafos */}
-      <div className="flex gap-20 mx-28">
+      <div className="flex flex-col lg:flex-row gap-1 lg:gap-20 mx-5 lg:mx-28 mt-2  lg:mt-0">
         <Paragraph light={true}>
           Somos un equipo apasionado por Guatapé, un pueblo mágico que nos cautivó con su
           belleza, historia y calidez humana. Este blog nace con el objetivo de compartir

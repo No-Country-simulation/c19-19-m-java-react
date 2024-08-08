@@ -8,6 +8,7 @@ const {
   DB_HOST,
   DB_PORT,
   DB_NAME,
+  DB_DEPLOY
   } = require('../config/envs');
 //-------------------------------- CONFIGURACION PARA TRABAJAR LOCALMENTE-----------------------------------
 const sequelize = new Sequelize(
@@ -18,11 +19,11 @@ const sequelize = new Sequelize(
   }
 );
 //-------------------------------------CONFIGURACION PARA EL DEPLOY---------------------------------------------------------------------
-// const sequelize = new Sequelize(DB_DEPLOY , {
-//       logging: false, // set to console.log to see the raw SQL queries
-//       native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-//     }
-//   );
+// const sequelize = new Sequelize(DB_DEPLOY, {
+//   logging: false,
+//   native: false,
+//   dialect: 'postgres',
+// });
 
 const basename = path.basename(__filename);
 
@@ -50,7 +51,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, Place,Image  } = sequelize.models;
+const { User, Place, Image, Rating, Comment  } = sequelize.models;
 
 // Relaciones
 User.hasMany(Place, { foreignKey: 'n_document', as: 'Propietario' });
@@ -58,6 +59,18 @@ Place.belongsTo(User, { foreignKey: 'n_document' });
 
 Place.hasMany(Image, { foreignKey: 'placeId' });
 Image.belongsTo(Place, { foreignKey: 'placeId' });
+
+Place.hasMany(Rating, { foreignKey: 'placeId' });
+Rating.belongsTo(Place, { foreignKey: 'placeId' });
+
+User.hasMany(Rating, { foreignKey: 'n_document' });
+Rating.belongsTo(User, { foreignKey: 'n_document' });
+
+Place.hasMany(Comment, { foreignKey: 'placeId' });
+Comment.belongsTo(Place, { foreignKey: 'placeId' });
+
+User.hasMany(Comment, { foreignKey: 'n_document' });
+Comment.belongsTo(User, { foreignKey: 'n_document' });
 
 
 //---------------------------------------------------------------------------------//
